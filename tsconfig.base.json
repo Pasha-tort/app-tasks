@@ -15,9 +15,13 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@account-lib": ["apps/account/account-lib/src/index.ts"],
+			"@api-lib": ["apps/api/api-lib/src/index.ts"],
 			"@components": ["libs/components/src/index.ts"],
-			"@configs": ["libs/configs/src/index.ts"]
+			"@configs": ["libs/configs/src/index.ts"],
+			"@users-lib": ["libs/users-lib/src/index.ts"]
 		}
 	},
-	"exclude": ["node_modules", "tmp"]
+	"exclude": ["node_modules", "tmp"],
+	"include": ["apps/**/*", "libs/**/*"]
 }
