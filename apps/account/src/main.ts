@@ -1,25 +1,21 @@
-import {Logger, ValidationPipe} from "@nestjs/common";
+import {Logger} from "@nestjs/common";
 import {NestFactory} from "@nestjs/core";
-
 import {AppModule} from "./app/app.module";
+import {Transport} from "@nestjs/microservices";
+
+const {PORT, HOST} = process.env;
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
-	const globalPrefix = "account-api";
-	app.setGlobalPrefix(globalPrefix);
-	app.useGlobalPipes(
-		new ValidationPipe({
-			transform: true,
-			transformOptions: {
-				exposeDefaultValues: true,
-			},
-		}),
-	);
-	const port = process.env.PORT || 3001;
-	await app.listen(port);
-	Logger.log(
-		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
-	);
+	const port = PORT || 3002;
+	const app = await NestFactory.createMicroservice(AppModule, {
+		transport: Transport.TCP,
+		options: {
+			host: HOST,
+			port,
+		},
+	});
+	app.listen();
+	Logger.log(`🚀 Microservice is running on: http://${HOST}:${port}`);
 }
 
 bootstrap();

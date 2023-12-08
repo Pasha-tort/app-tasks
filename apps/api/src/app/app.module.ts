@@ -1,11 +1,11 @@
 import {Module} from "@nestjs/common";
+import {APP_GUARD} from "@nestjs/core";
 import {ConfigModule} from "@nestjs/config";
 import {RMQModule} from "nestjs-rmq";
 import {getRmqConfig, getConfigModule} from "@configs";
-import {AccountModule} from "./account/account.module";
 import path from "path";
 import {TaskModule} from "./task/task.module";
-import {JwtModuleCustom} from "@users-lib";
+import {JwtAuthGuardProvider, UserModule} from "@http-lib";
 
 @Module({
 	imports: [
@@ -15,9 +15,14 @@ import {JwtModuleCustom} from "@users-lib";
 			}),
 		),
 		RMQModule.forRootAsync(getRmqConfig()),
-		JwtModuleCustom,
-		AccountModule,
+		UserModule,
 		TaskModule,
+	],
+	providers: [
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuardProvider,
+		},
 	],
 })
 export class AppModule {}

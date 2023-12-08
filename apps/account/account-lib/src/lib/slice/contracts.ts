@@ -1,13 +1,33 @@
 import {Exclude, Expose} from "class-transformer";
-import {IsEmail, IsString, IsOptional} from "class-validator";
+import {IsEmail, IsString, IsOptional, IsMongoId} from "class-validator";
+import {IUser} from "./user.interface";
 
 export namespace AccountContracts {
+	export namespace User {
+		@Exclude()
+		export class User implements IUser {
+			@Expose()
+			id?: string;
+
+			@Expose()
+			name: string;
+
+			@Expose()
+			email: string;
+
+			@Expose()
+			passwordHash: string;
+
+			@Expose()
+			token?: string;
+		}
+	}
 	export namespace Auth {
 		export namespace register {
 			export const topic = "account.register.command";
 
 			@Exclude()
-			export class RequestDto {
+			export class RequestDto implements Omit<IUser, "passwordHash"> {
 				@Expose()
 				@IsEmail()
 				email: string;
@@ -18,7 +38,7 @@ export namespace AccountContracts {
 
 				@Expose()
 				@IsString()
-				name: string; // уникальное значение
+				name: string;
 
 				@Expose()
 				@IsOptional()
@@ -48,10 +68,25 @@ export namespace AccountContracts {
 			}
 
 			@Exclude()
-			export class ResponseDto {
+			export class ResponseDto extends User.User {}
+		}
+
+		export namespace getAndCheck {
+			export const topic = "account.getAndCheck.command";
+
+			@Exclude()
+			export class RequestDto {
 				@Expose()
-				access_token: string;
+				@IsEmail()
+				email: string;
+
+				@Expose()
+				@IsMongoId()
+				userId: string;
 			}
+
+			@Exclude()
+			export class ResponseDto extends User.User {}
 		}
 	}
 }

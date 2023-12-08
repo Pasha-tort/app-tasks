@@ -1,9 +1,11 @@
 import {ConfigService} from "@nestjs/config";
-import {IRMQServiceAsyncOptions} from "nestjs-rmq";
+import {IRMQServiceAsyncOptions, IRMQServiceOptions} from "nestjs-rmq";
 
-export const getRmqConfig: () => IRMQServiceAsyncOptions = () => ({
-	useFactory: async (configService: ConfigService) => ({
-		exchangeName: configService.get("AMQP_EXCHANGE") ?? "",
+export const getRmqConfig: (
+	cfg?: Partial<IRMQServiceOptions>,
+) => IRMQServiceAsyncOptions = (cfg?: Partial<IRMQServiceOptions>) => ({
+	useFactory: (configService: ConfigService) => ({
+		exchangeName: configService.get("AMQP_EXCHANGE_MAIN") ?? "",
 		connections: [
 			{
 				login: configService.get("AMQP_LOGIN") ?? "",
@@ -14,6 +16,8 @@ export const getRmqConfig: () => IRMQServiceAsyncOptions = () => ({
 		queueName: configService.get("AMQP_QUEUE"),
 		serviceName: configService.get("AMQP_SERVICE_NAME"),
 		prefetchCount: 32,
+		assertExchangeType: "direct",
+		...cfg,
 	}),
 	inject: [ConfigService],
 });

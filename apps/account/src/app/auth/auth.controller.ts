@@ -1,21 +1,30 @@
-import {Controller, Post, Body} from "@nestjs/common";
-import {AccountContracts} from "@account-lib";
+import {Controller} from "@nestjs/common";
+import {AccountContracts, AccountRmqService} from "@account-lib";
 import {AuthService} from "./auth.service";
-import {LocalAuthGuard, UserExtractor, UserEntity} from "@users-lib";
+import {RMQTransform, RMQValidate} from "nestjs-rmq";
 
-@Controller("auth")
+@Controller()
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
-	@Post("register")
-	async register(@Body() body: AccountContracts.Auth.register.RequestDto) {
-		return this.authService.register(body);
+	@RMQValidate()
+	@RMQTransform()
+	@AccountRmqService.registerRpc()
+	async register(dto: AccountContracts.Auth.register.RequestDto) {
+		return this.authService.register(dto);
 	}
 
-	@Post("login")
-	@LocalAuthGuard()
-	async login(@UserExtractor() user: UserEntity) {
-		console.log({user});
-		return this.authService.login(user);
+	@RMQValidate()
+	@RMQTransform()
+	@AccountRmqService.loginRpc()
+	async login(dto: AccountContracts.Auth.login.RequestDto) {
+		return this.authService.login(dto);
+	}
+
+	@RMQValidate()
+	@RMQTransform()
+	@AccountRmqService.getAndCheckRpc()
+	async getAndCheck(dto: AccountContracts.Auth.getAndCheck.RequestDto) {
+		return this.authService.getAndCheck(dto);
 	}
 }

@@ -12,3 +12,9 @@ export class WrongLoginOrPassException extends RMQError {
 		super("Неверный логин или пароль", ERROR_TYPE.TRANSPORT);
 	}
 }
+
+export class UserNotFoundException extends RMQError {
+	constructor() {
+		super("Пользователь не найден", ERROR_TYPE.TRANSPORT);
+	}
+}

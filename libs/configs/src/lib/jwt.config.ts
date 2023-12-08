@@ -7,6 +7,7 @@ export function getJwtConfig(): JwtModuleAsyncOptions {
 		useFactory: (configService: ConfigService) => {
 			return {
 				secret: configService.get("JWT_SECRET"),
+				signOptions: {expiresIn: "60s"},
 			};
 		},
 	};
