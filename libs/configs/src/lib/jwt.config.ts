@@ -6,8 +6,8 @@ export function getJwtConfig(): JwtModuleAsyncOptions {
 		inject: [ConfigService],
 		useFactory: (configService: ConfigService) => {
 			return {
-				secret: configService.get("JWT_SECRET"),
-				signOptions: {expiresIn: "60s"},
+				secret: configService.get("JWT_ACCESS_SECRET"),
+				signOptions: {expiresIn: configService.get("JWT_ACCESS_TOKEN_EXP")},
 			};
 		},
 	};

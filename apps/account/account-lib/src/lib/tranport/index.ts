@@ -22,12 +22,14 @@ export class AccountRmqService {
 	}
 	static loginRpc = () => RMQRoute(AccountContracts.Auth.login.topic);
 
-	async getAndCheck(payload: AccountContracts.Auth.getAndCheck.RequestDto) {
+	async getAndCheckUser(
+		payload: AccountContracts.Auth.getAndCheckUser.RequestDto,
+	) {
 		return this.rmqService.send<
-			AccountContracts.Auth.getAndCheck.RequestDto,
-			AccountContracts.Auth.getAndCheck.ResponseDto
-		>(AccountContracts.Auth.getAndCheck.topic, payload);
+			AccountContracts.Auth.getAndCheckUser.RequestDto,
+			AccountContracts.Auth.getAndCheckUser.ResponseDto
+		>(AccountContracts.Auth.getAndCheckUser.topic, payload);
 	}
-	static getAndCheckRpc = () =>
-		RMQRoute(AccountContracts.Auth.getAndCheck.topic);
+	static getAndCheckUserRpc = () =>
+		RMQRoute(AccountContracts.Auth.getAndCheckUser.topic);
 }

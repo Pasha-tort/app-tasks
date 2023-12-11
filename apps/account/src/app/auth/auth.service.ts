@@ -1,6 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {
 	AccountContracts,
+	IUser,
 	UserEntity,
 	UserNotFoundException,
 	WrongLoginOrPassException,
@@ -25,12 +26,19 @@ export class AuthService {
 			name: dto.name,
 			email: dto.email,
 			passwordHash: "",
-		}).setPassword(
-			dto.password,
-			Number(this.configService.get("PASSWORD_SALT")),
-		);
+		}).setPassword(dto.password, Number(this.configService.get("SALT")));
+
 		const newUser = await this.userRepositories.createUser(newUserEntity);
-		return {email: newUser.email};
+		const userEntity = new UserEntity(newUser); // создаем новый UserEntity так записали в базу нового пользователя и у него теперь есть id
+
+		const tokens = await this.getTokens(userEntity);
+		const {tokenRefreshHash} = await userEntity.setRefreshToken(
+			tokens.tokenRefresh,
+			Number(this.configService.get("SALT")),
+		);
+		await this.userRepositories.updateUserById(newUser.id, {tokenRefreshHash});
+
+		return tokens;
 	}
 
 	async login({
@@ -44,22 +52,42 @@ export class AuthService {
 		const isCorrectPass = await userEntity.validationPassword(password);
 		if (!isCorrectPass) throw new WrongLoginOrPassException();
 
-		userEntity.token = this.jwtService.sign({
-			email: user.email,
-			userId: user.id,
+		const tokens = await this.getTokens(userEntity);
+		const {tokenRefreshHash} = await userEntity.setRefreshToken(
+			tokens.tokenRefresh,
+			Number(this.configService.get("SALT")),
+		);
+		await this.userRepositories.updateUserById(userEntity.id, {
+			tokenRefreshHash,
 		});
-		await this.userRepositories.updateUserById(userEntity.id, userEntity);
-		return userEntity;
+
+		return tokens;
 	}
 
-	async getAndCheck({
+	async getTokens(user: IUser) {
+		const [tokenAccess, tokenRefresh] = await Promise.all([
+			this.jwtService.signAsync({
+				iss: user.id,
+				sub: user,
+			}), // options'ы задаются в authModule в JwtModule
+			this.jwtService.signAsync(
+				{
+					iss: user.id,
+					sub: user,
+				},
+				{
+					secret: this.configService.get("JWT_REFRESH_SECRET"),
+					expiresIn: this.configService.get("JWT_REFRESH_TOKEN_EXP"),
+				},
+			),
+		]);
+		return {tokenAccess, tokenRefresh};
+	}
+
+	async getAndCheckUser({
 		userId,
-		email,
-	}: AccountContracts.Auth.getAndCheck.RequestDto) {
-		const user = await this.userRepositories.findUserByIdAndEmail(
-			userId,
-			email,
-		);
+	}: AccountContracts.Auth.getAndCheckUser.RequestDto) {
+		const user = await this.userRepositories.findUserById(userId);
 		if (!user) throw new UserNotFoundException();
 		return user;
 	}

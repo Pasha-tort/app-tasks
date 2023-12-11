@@ -5,7 +5,7 @@ interface IBaseUser {
 	lastName?: string;
 	email: string;
 	passwordHash: string;
-	token?: string;
+	tokenRefreshHash?: string;
 }
 
 export interface IUserDocument extends IBaseUser {
@@ -16,7 +16,7 @@ export interface IUser extends IBaseUser {
 	id?: string;
 }
 
-export interface IUserJWT {
-	email: string;
-	userId: string;
+export interface IJWT {
+	iss: string; // id пользователя
+	sub: IUser;
 }

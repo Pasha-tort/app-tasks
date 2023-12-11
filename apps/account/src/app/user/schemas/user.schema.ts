@@ -18,7 +18,7 @@ export class User extends Document implements IUser {
 	passwordHash: string;
 
 	@Prop()
-	token?: string;
+	tokenRefresh?: string;
 }
 
 export type UserModel = Model<User>;

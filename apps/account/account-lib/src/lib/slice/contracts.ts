@@ -19,7 +19,7 @@ export namespace AccountContracts {
 			passwordHash: string;
 
 			@Expose()
-			token?: string;
+			tokenRefresh?: string;
 		}
 	}
 	export namespace Auth {
@@ -49,7 +49,10 @@ export namespace AccountContracts {
 			@Exclude()
 			export class ResponseDto {
 				@Expose()
-				email: string;
+				tokenAccess: string;
+
+				@Expose()
+				tokenRefresh: string;
 			}
 		}
 
@@ -68,18 +71,20 @@ export namespace AccountContracts {
 			}
 
 			@Exclude()
-			export class ResponseDto extends User.User {}
+			export class ResponseDto {
+				@Expose()
+				tokenAccess: string;
+
+				@Expose()
+				tokenRefresh: string;
+			}
 		}
 
-		export namespace getAndCheck {
-			export const topic = "account.getAndCheck.command";
+		export namespace getAndCheckUser {
+			export const topic = "account.getAndCheckUser.command";
 
 			@Exclude()
 			export class RequestDto {
-				@Expose()
-				@IsEmail()
-				email: string;
-
 				@Expose()
 				@IsMongoId()
 				userId: string;

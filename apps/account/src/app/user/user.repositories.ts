@@ -24,7 +24,7 @@ export class UserRepositories {
 	}
 
 	/**
-	 * метод специально для проверки данных мз jwt токена
+	 * метод специально для проверки данных из jwt токена(для авторизации)
 	 */
 	async findUserByIdAndEmail(userId: string, email: string) {
 		return this.userModel.findOne({_id: userId, email});

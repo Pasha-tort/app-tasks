@@ -1,7 +1,7 @@
 import {Controller, Post, Body} from "@nestjs/common";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
-import {AccountContracts, UserEntity} from "@account-lib";
+import {AccountContracts} from "@account-lib";
 import {UserService} from "./user.service";
 
 @Controller("user")
@@ -17,7 +17,10 @@ export class UserController {
 	@Post("login")
 	@Public()
 	@LocalAuthGuard()
-	async login(@UserExtractor() {token}: UserEntity) {
-		return {access_token: token};
+	async login(
+		@UserExtractor()
+		{tokenAccess, tokenRefresh}: AccountContracts.Auth.login.ResponseDto,
+	) {
+		return {access_token: tokenAccess, token_refresh: tokenRefresh};
 	}
 }

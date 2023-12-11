@@ -7,7 +7,7 @@ export class UserEntity implements IUser {
 	lastName?: string;
 	email: string;
 	passwordHash: string;
-	token?: string;
+	tokenRefreshHash?: string;
 
 	constructor(data: IUserDocument);
 	constructor(data: IUser);
@@ -16,7 +16,7 @@ export class UserEntity implements IUser {
 		lastName,
 		email,
 		passwordHash,
-		token,
+		tokenRefreshHash,
 		_id,
 		id,
 	}: IUser & IUserDocument) {
@@ -25,13 +25,18 @@ export class UserEntity implements IUser {
 		this.lastName = lastName;
 		this.email = email;
 		this.passwordHash = passwordHash;
-		this.token = token;
+		this.tokenRefreshHash = tokenRefreshHash;
 	}
 
 	async setPassword(password: string, salt: number) {
 		const newSalt = await genSalt(salt);
-		const hashV = await hash(password, newSalt);
-		this.passwordHash = hashV;
+		this.passwordHash = await hash(password, newSalt);
+		return this;
+	}
+
+	async setRefreshToken(token: string, salt: number) {
+		const newSalt = await genSalt(salt);
+		this.tokenRefreshHash = await hash(token, newSalt);
 		return this;
 	}
 

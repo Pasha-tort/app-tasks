@@ -13,7 +13,9 @@ export class UserService {
 		return this.accountRmqService.login(payload);
 	}
 
-	async getAndCheck(payload: AccountContracts.Auth.getAndCheck.RequestDto) {
-		return this.accountRmqService.getAndCheck(payload);
+	async getAndCheckUser(
+		payload: AccountContracts.Auth.getAndCheckUser.RequestDto,
+	) {
+		return this.accountRmqService.getAndCheckUser(payload);
 	}
 }

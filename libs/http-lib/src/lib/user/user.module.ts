@@ -7,10 +7,17 @@ import {JwtStrategy} from "../strategies/jwt.strategy";
 import {JwtModule} from "@nestjs/jwt";
 import {AccountRmqService} from "@account-lib";
 import {UserController} from "./user.controller";
+import {RefreshTokenStrategy} from "../strategies/refresh.strategy";
 
 @Module({
 	imports: [PassportModule, JwtModule.registerAsync(getJwtConfig())],
 	controllers: [UserController],
-	providers: [LocalStrategy, JwtStrategy, UserService, AccountRmqService],
+	providers: [
+		LocalStrategy,
+		JwtStrategy,
+		RefreshTokenStrategy,
+		UserService,
+		AccountRmqService,
+	],
 })
 export class UserModule {}
