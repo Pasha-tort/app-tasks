@@ -13,6 +13,12 @@ export class WrongLoginOrPassException extends RMQError {
 	}
 }
 
+export class WrongTokenRefreshException extends RMQError {
+	constructor() {
+		super("Access denied", ERROR_TYPE.TRANSPORT, 403);
+	}
+}
+
 //TODO пока не разу не используется если так и продолжится, то удалить
 export class UserNotFoundException extends RMQError {
 	constructor() {
