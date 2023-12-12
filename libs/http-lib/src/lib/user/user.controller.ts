@@ -1,4 +1,4 @@
-import {Controller, Post, Body, UseGuards} from "@nestjs/common";
+import {Controller, Post, Body} from "@nestjs/common";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
 import {AccountContracts, IJwtPayload, IUser} from "@account-lib";
@@ -34,7 +34,7 @@ export class UserController {
 
 	@Post("refresh-token")
 	@RefreshTokenEntrypoint()
-	@UseGuards(RefreshTokenGuard)
+	@RefreshTokenGuard()
 	async refreshToken(
 		@UserExtractor() user: IJwtPayload,
 		@RefreshTokenExtractor() token: string,

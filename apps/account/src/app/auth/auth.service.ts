@@ -79,7 +79,7 @@ export class AuthService {
 			throw new ForbiddenException("Access Denied");
 
 		const isCorrectToken = userEntity.validateRefreshToken(refreshToken);
-		if (!isCorrectToken) throw new ForbiddenException("Access Denied");
+		if (!isCorrectToken) throw new ForbiddenException("Access Denied"); //TODO протестировать исключение
 
 		const tokens = await this.getTokens(userEntity);
 		const {tokenRefreshHash} = await userEntity.setRefreshToken(
@@ -111,6 +111,10 @@ export class AuthService {
 				},
 			),
 		]);
-		return {tokenAccess, tokenRefresh};
+
+		return {
+			tokenAccess,
+			tokenRefresh,
+		};
 	}
 }
