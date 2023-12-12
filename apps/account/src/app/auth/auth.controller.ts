@@ -23,8 +23,15 @@ export class AuthController {
 
 	@RMQValidate()
 	@RMQTransform()
-	@AccountRmqService.getAndCheckUserRpc()
-	async getAndCheckUser(dto: AccountContracts.Auth.getAndCheckUser.RequestDto) {
-		return this.authService.getAndCheckUser(dto);
+	@AccountRmqService.logoutRpc()
+	async logout(dto: AccountContracts.Auth.logout.RequestDto) {
+		return this.authService.logout(dto);
+	}
+
+	@RMQValidate()
+	@RMQTransform()
+	@AccountRmqService.refreshTokenRpc()
+	async refreshToken(dto: AccountContracts.Auth.refreshToken.RequestDto) {
+		return this.authService.refreshTokens(dto);
 	}
 }

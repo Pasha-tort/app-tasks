@@ -13,9 +13,11 @@ export class UserService {
 		return this.accountRmqService.login(payload);
 	}
 
-	async getAndCheckUser(
-		payload: AccountContracts.Auth.getAndCheckUser.RequestDto,
-	) {
-		return this.accountRmqService.getAndCheckUser(payload);
+	async logout(payload: AccountContracts.Auth.logout.RequestDto) {
+		return this.accountRmqService.logout(payload);
+	}
+
+	async refreshToken(payload: AccountContracts.Auth.refreshToken.RequestDto) {
+		return this.accountRmqService.refreshToken(payload);
 	}
 }

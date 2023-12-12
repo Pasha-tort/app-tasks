@@ -2,7 +2,6 @@ import {Types} from "mongoose";
 
 interface IBaseUser {
 	name: string;
-	lastName?: string;
 	email: string;
 	passwordHash: string;
 	tokenRefreshHash?: string;
@@ -16,7 +15,9 @@ export interface IUser extends IBaseUser {
 	id?: string;
 }
 
-export interface IJWT {
+export interface IJwtPayload {
 	iss: string; // id пользователя
-	sub: IUser;
+	sub: Pick<IUser, "id" | "name" | "email">;
+	iat: number;
+	exp: number;
 }

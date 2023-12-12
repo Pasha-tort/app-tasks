@@ -1,9 +1,8 @@
-import {Injectable} from "@nestjs/common";
+import {ForbiddenException, Injectable} from "@nestjs/common";
 import {
 	AccountContracts,
 	IUser,
 	UserEntity,
-	UserNotFoundException,
 	WrongLoginOrPassException,
 } from "@account-lib";
 import {ConfigService} from "@nestjs/config";
@@ -64,16 +63,47 @@ export class AuthService {
 		return tokens;
 	}
 
+	async logout({userId}: AccountContracts.Auth.logout.RequestDto) {
+		return this.userRepositories.updateUserById(userId, {
+			tokenRefreshHash: null,
+		});
+	}
+
+	async refreshTokens({
+		userId,
+		refreshToken,
+	}: AccountContracts.Auth.refreshToken.RequestDto) {
+		const user = await this.userRepositories.findUserById(userId);
+		const userEntity = new UserEntity(user);
+		if (!user || !user.tokenRefreshHash)
+			throw new ForbiddenException("Access Denied");
+
+		const isCorrectToken = userEntity.validateRefreshToken(refreshToken);
+		if (!isCorrectToken) throw new ForbiddenException("Access Denied");
+
+		const tokens = await this.getTokens(userEntity);
+		const {tokenRefreshHash} = await userEntity.setRefreshToken(
+			tokens.tokenRefresh,
+			Number(this.configService.get("SALT")),
+		);
+		await this.userRepositories.updateUserById(user.id, {tokenRefreshHash});
+
+		return tokens;
+	}
+
 	async getTokens(user: IUser) {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const {passwordHash, tokenRefreshHash, ...dataUser} = user; // избавляемся от двух полей которые не нужны в данных которые будут зашиты в токены
+
 		const [tokenAccess, tokenRefresh] = await Promise.all([
 			this.jwtService.signAsync({
-				iss: user.id,
-				sub: user,
+				iss: dataUser.id,
+				sub: dataUser,
 			}), // options'ы задаются в authModule в JwtModule
 			this.jwtService.signAsync(
 				{
-					iss: user.id,
-					sub: user,
+					iss: dataUser.id,
+					sub: dataUser,
 				},
 				{
 					secret: this.configService.get("JWT_REFRESH_SECRET"),
@@ -82,13 +112,5 @@ export class AuthService {
 			),
 		]);
 		return {tokenAccess, tokenRefresh};
-	}
-
-	async getAndCheckUser({
-		userId,
-	}: AccountContracts.Auth.getAndCheckUser.RequestDto) {
-		const user = await this.userRepositories.findUserById(userId);
-		if (!user) throw new UserNotFoundException();
-		return user;
 	}
 }

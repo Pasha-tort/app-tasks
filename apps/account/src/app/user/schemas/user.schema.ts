@@ -8,9 +8,6 @@ export class User extends Document implements IUser {
 	@Prop({required: true})
 	name: string;
 
-	@Prop()
-	lastName?: string;
-
 	@Prop({required: true})
 	email: string;
 
@@ -18,7 +15,7 @@ export class User extends Document implements IUser {
 	passwordHash: string;
 
 	@Prop()
-	tokenRefresh?: string;
+	tokenRefreshHash?: string;
 }
 
 export type UserModel = Model<User>;

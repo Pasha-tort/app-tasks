@@ -1,7 +1,7 @@
 import {ExecutionContext, Injectable, UseGuards} from "@nestjs/common";
 import {AuthGuard} from "@nestjs/passport";
 import {Reflector} from "@nestjs/core";
-import {IS_PUBLIC_KEY} from "../decorators/constants";
+import {IS_PUBLIC_KEY, IS_REFRESH_TOKEN_KEY} from "../constants";
 
 export function JwtAuthGuard() {
 	return UseGuards(AuthGuard("jwt"));
@@ -18,7 +18,11 @@ export class JwtAuthGuardProvider extends AuthGuard("jwt") {
 			context.getHandler(),
 			context.getClass(),
 		]);
-		if (isPublic) return true;
+		const isRefreshToken = this.reflector.getAllAndOverride<boolean>(
+			IS_REFRESH_TOKEN_KEY,
+			[context.getHandler(), context.getClass()],
+		);
+		if (isPublic || isRefreshToken) return true;
 		return super.canActivate(context);
 	}
 }

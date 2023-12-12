@@ -4,7 +4,6 @@ import {IUser, IUserDocument} from "./user.interface";
 export class UserEntity implements IUser {
 	id?: string;
 	name: string;
-	lastName?: string;
 	email: string;
 	passwordHash: string;
 	tokenRefreshHash?: string;
@@ -13,7 +12,6 @@ export class UserEntity implements IUser {
 	constructor(data: IUser);
 	constructor({
 		name,
-		lastName,
 		email,
 		passwordHash,
 		tokenRefreshHash,
@@ -22,7 +20,6 @@ export class UserEntity implements IUser {
 	}: IUser & IUserDocument) {
 		this.id = _id?.toString() || id;
 		this.name = name;
-		this.lastName = lastName;
 		this.email = email;
 		this.passwordHash = passwordHash;
 		this.tokenRefreshHash = tokenRefreshHash;
@@ -42,5 +39,10 @@ export class UserEntity implements IUser {
 
 	async validationPassword(password: string) {
 		return compare(password, this.passwordHash);
+	}
+
+	async validateRefreshToken(token: string) {
+		if (this.tokenRefreshHash) return compare(token, this.tokenRefreshHash);
+		else return false;
 	}
 }

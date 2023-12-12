@@ -1,18 +1,17 @@
-import {AccountRmqService} from "@account-lib";
 import {Injectable} from "@nestjs/common";
 import {ConfigService} from "@nestjs/config";
 import {PassportStrategy} from "@nestjs/passport";
 import {Strategy, ExtractJwt} from "passport-jwt";
+import {Request} from "express";
+import {NAME_FIELD_REFRESH_TOKEN_TO_REQUEST} from "../constants";
+import {IJwtPayload} from "@account-lib";
 
 @Injectable()
-export class RefreshTokenStrategy extends PassportStrategy(
+export class RefreshJwtStrategy extends PassportStrategy(
 	Strategy,
 	"jwt-refresh",
 ) {
-	constructor(
-		private readonly configService: ConfigService,
-		private accountRmqService: AccountRmqService,
-	) {
+	constructor(private readonly configService: ConfigService) {
 		super({
 			secretOrKey: configService.get("JWT_REFRESH_SECRET"),
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -21,8 +20,12 @@ export class RefreshTokenStrategy extends PassportStrategy(
 		});
 	}
 
-	async validate(request: Request, payload: unknown) {
-		console.log({request, payload});
+	async validate(request: Request, payload: IJwtPayload) {
+		const refreshToken = request
+			.get("Authorization")
+			?.replace("Bearer", "")
+			.trim();
+		return {...payload, [NAME_FIELD_REFRESH_TOKEN_TO_REQUEST]: refreshToken};
 		// const refreshToken = request.cookies["refreshToken"];
 		// const user = await this.authService.refreshToken(payload.sub, refreshToken);
 		// request.res.cookie("jwt", user.accessToken, {httpOnly: true});
