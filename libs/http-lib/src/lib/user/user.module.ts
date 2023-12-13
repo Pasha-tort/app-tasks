@@ -1,4 +1,4 @@
-import {Module} from "@nestjs/common";
+import {Logger, MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
 import {PassportModule} from "@nestjs/passport";
 import {LocalStrategy} from "../strategies/local.strategy";
 import {UserService} from "./user.service";
@@ -7,17 +7,23 @@ import {JwtStrategy} from "../strategies/jwt.strategy";
 import {JwtModule} from "@nestjs/jwt";
 import {AccountRmqService} from "@account-lib";
 import {UserController} from "./user.controller";
-import {RefreshJwtStrategy} from "../strategies/refresh.strategy";
+import {TokenRefreshExtractorMiddleware} from "../middlewares/token-refresh-extractor.middleware";
 
 @Module({
 	imports: [PassportModule, JwtModule.registerAsync(getJwtConfig())],
 	controllers: [UserController],
 	providers: [
+		Logger,
 		LocalStrategy,
 		JwtStrategy,
-		RefreshJwtStrategy,
 		UserService,
 		AccountRmqService,
 	],
 })
-export class UserModule {}
+export class UserModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer
+			.apply(TokenRefreshExtractorMiddleware)
+			.forRoutes("user/refresh-token");
+	}
+}

@@ -1,9 +1,10 @@
-import {ForbiddenException, Injectable} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {
 	AccountContracts,
 	IUser,
 	UserEntity,
 	WrongLoginOrPassException,
+	WrongTokenRefreshException,
 } from "@account-lib";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
@@ -75,11 +76,10 @@ export class AuthService {
 	}: AccountContracts.Auth.refreshToken.RequestDto) {
 		const user = await this.userRepositories.findUserById(userId);
 		const userEntity = new UserEntity(user);
-		if (!user || !user.tokenRefreshHash)
-			throw new ForbiddenException("Access Denied");
+		if (!user || !user.tokenRefreshHash) throw new WrongTokenRefreshException();
 
 		const isCorrectToken = userEntity.validateRefreshToken(refreshToken);
-		if (!isCorrectToken) throw new ForbiddenException("Access Denied");
+		if (!isCorrectToken) throw new WrongTokenRefreshException();
 
 		const tokens = await this.getTokens(userEntity);
 		const {tokenRefreshHash} = await userEntity.setRefreshToken(
@@ -111,6 +111,10 @@ export class AuthService {
 				},
 			),
 		]);
-		return {tokenAccess, tokenRefresh};
+
+		return {
+			tokenAccess,
+			tokenRefresh,
+		};
 	}
 }
