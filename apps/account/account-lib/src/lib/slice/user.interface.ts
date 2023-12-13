@@ -15,9 +15,15 @@ export interface IUser extends IBaseUser {
 	id?: string;
 }
 
+export interface IUserBaseData {
+	id: string;
+	name: string;
+	email: string;
+}
+
 export interface IJwtPayload {
 	iss: string; // id пользователя
-	sub: Pick<IUser, "id" | "name" | "email">;
+	sub: IUserBaseData;
 	iat: number;
 	exp: number;
 }
