@@ -2,10 +2,10 @@ import {Module} from "@nestjs/common";
 import {APP_GUARD} from "@nestjs/core";
 import {ConfigModule} from "@nestjs/config";
 import {RMQModule} from "nestjs-rmq";
-import {getRmqConfig, getConfigModule} from "@configs";
+import {getRmqConfig, getConfigModule} from "@app-tasks/configs";
 import path from "path";
 import {TaskModule} from "./task/task.module";
-import {JwtAuthGuardProvider, UserModule} from "@http";
+import {JwtAuthGuardProvider, UserModule} from "@app-tasks/http";
 
 @Module({
 	imports: [

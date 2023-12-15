@@ -1,4 +1,4 @@
-import {AccountRmqService, AccountContracts} from "@account-lib";
+import {AccountRmqService, AccountContracts} from "@app-tasks/account";
 import {Injectable} from "@nestjs/common";
 
 @Injectable()

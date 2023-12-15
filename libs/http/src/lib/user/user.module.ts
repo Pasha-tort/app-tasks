@@ -2,10 +2,10 @@ import {Logger, MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
 import {PassportModule} from "@nestjs/passport";
 import {LocalStrategy} from "../strategies/local.strategy";
 import {UserService} from "./user.service";
-import {getJwtConfig} from "@configs";
+import {getJwtConfig} from "@app-tasks/configs";
 import {JwtStrategy} from "../strategies/jwt.strategy";
 import {JwtModule} from "@nestjs/jwt";
-import {AccountRmqService} from "@account-lib";
+import {AccountRmqService} from "@app-tasks/account";
 import {UserController} from "./user.controller";
 import {TokenRefreshExtractorMiddleware} from "../middlewares/token-refresh-extractor.middleware";
 

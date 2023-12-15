@@ -2,13 +2,12 @@ import {Controller, Post, Body, Res, HttpStatus} from "@nestjs/common";
 import {Response} from "express";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
-import {AccountContracts, IJwtPayload, IUserBaseData} from "@account-lib";
+import {AccountContracts, IJwtPayload, IUserBaseData} from "@app-tasks/account";
 import {UserService} from "./user.service";
 import {RefreshTokenExtractor} from "../decorators/refresh-token-extractor.decorator";
 import {createCookie} from "../helpers/create-cookie";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
-// import {clearCookie} from "../helpers/clear-cookie";
 import {RefreshTokenEntrypoint} from "../decorators/is-refresh-token.decorator";
 
 @Controller("user")
