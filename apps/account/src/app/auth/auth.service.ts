@@ -5,7 +5,7 @@ import {
 	UserEntity,
 	WrongLoginOrPassException,
 	WrongTokenRefreshException,
-} from "@account-lib";
+} from "@app-tasks/account";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
 import {UserRepositories} from "../user/user.repositories";

@@ -1,5 +1,9 @@
 import {Module} from "@nestjs/common";
-import {getConfigModule, getMongoConfig, getRmqConfig} from "@configs";
+import {
+	getConfigModule,
+	getMongoConfig,
+	getRmqConfig,
+} from "@app-tasks/configs";
 import {ConfigModule} from "@nestjs/config";
 import {MongooseModule} from "@nestjs/mongoose";
 import path from "path";

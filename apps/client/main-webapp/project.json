@@ -11,18 +11,19 @@
       "options": {
         "compiler": "babel",
         "outputPath": "dist/apps/client/main-webapp",
-        "index": "apps/client/main-webapp/src/index.html",
+        "index": "apps/client/main-webapp/src/app/index.html",
         "baseHref": "/",
-        "main": "apps/client/main-webapp/src/main.tsx",
+        "main": "apps/client/main-webapp/src/app/main.tsx",
         "tsConfig": "apps/client/main-webapp/tsconfig.app.json",
         "assets": [
-          "apps/client/main-webapp/src/favicon.ico",
-          "apps/client/main-webapp/src/assets"
+          "apps/client/main-webapp/src/app/favicon.ico",
+          "apps/client/main-webapp/src/**/assets"
         ],
-        "styles": ["apps/client/main-webapp/src/styles.scss"],
+        "styles": ["apps/client/main-webapp/src/app/styles.scss"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/client/main-webapp/webpack.config.js"
+        "webpackConfig": "apps/client/main-webapp/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {

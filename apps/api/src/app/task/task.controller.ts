@@ -1,5 +1,5 @@
 import {Body, Controller, Post} from "@nestjs/common";
-import {UserExtractor} from "@http-lib";
+import {UserExtractor} from "@http";
 import {IUserBaseData} from "@account-lib";
 
 @Controller("task")

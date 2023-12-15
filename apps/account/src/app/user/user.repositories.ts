@@ -1,7 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {User, UserModel} from "./schemas/user.schema";
 import {InjectModel} from "@nestjs/mongoose";
-import {UserExistException, UserEntity, IUser} from "@account-lib";
+import {UserExistException, UserEntity, IUser} from "@app-tasks/account";
 
 @Injectable()
 export class UserRepositories {

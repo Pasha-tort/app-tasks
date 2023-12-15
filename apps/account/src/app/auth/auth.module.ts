@@ -5,7 +5,7 @@ import {JwtModule} from "@nestjs/jwt";
 import {UserRepositories} from "../user/user.repositories";
 import {MongooseModule} from "@nestjs/mongoose";
 import {UserFeature} from "../user/schemas/user.schema";
-import {getJwtConfig} from "@configs";
+import {getJwtConfig} from "@app-tasks/configs";
 
 @Module({
 	imports: [

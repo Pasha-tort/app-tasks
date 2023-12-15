@@ -5,7 +5,7 @@ import {RMQModule} from "nestjs-rmq";
 import {getRmqConfig, getConfigModule} from "@configs";
 import path from "path";
 import {TaskModule} from "./task/task.module";
-import {JwtAuthGuardProvider, UserModule} from "@http-lib";
+import {JwtAuthGuardProvider, UserModule} from "@http";
 
 @Module({
 	imports: [

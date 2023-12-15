@@ -15,11 +15,10 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@account-lib": ["apps/account/account-lib/src/index.ts"],
-			"@api-lib": ["apps/api/api-lib/src/index.ts"],
-			"@components": ["libs/components/src/index.ts"],
 			"@configs": ["libs/configs/src/index.ts"],
-			"@http-lib": ["libs/http-lib/src/index.ts"]
+			"@http": ["libs/http/src/index.ts"],
+			"@account-lib": ["apps/account/lib/src/index.ts"],
+			"@api-lib": ["apps/api/lib/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"],
