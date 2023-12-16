@@ -13,13 +13,7 @@
 		"lib": ["es2020", "dom"],
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
-		"baseUrl": ".",
-		"paths": {
-			"@configs": ["libs/configs/src/index.ts"],
-			"@http": ["libs/http/src/index.ts"],
-			"@account-lib": ["apps/account/lib/src/index.ts"],
-			"@api-lib": ["apps/api/lib/src/index.ts"]
-		}
+		"baseUrl": "."
 	},
 	"exclude": ["node_modules", "tmp"],
 	"include": ["apps/**/*", "libs/**/*"]

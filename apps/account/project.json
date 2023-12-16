@@ -27,7 +27,8 @@
 			"executor": "@nx/js:node",
 			"defaultConfiguration": "development",
 			"options": {
-				"buildTarget": "account:build"
+				"buildTarget": "account:build",
+				"runBuildTargetDependencies": true
 			},
 			"configurations": {
 				"development": {

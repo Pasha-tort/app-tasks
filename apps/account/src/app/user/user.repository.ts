@@ -1,10 +1,10 @@
 import {Injectable} from "@nestjs/common";
 import {User, UserModel} from "./schemas/user.schema";
 import {InjectModel} from "@nestjs/mongoose";
-import {UserExistException, UserEntity, IUser} from "@app-tasks/account";
+import {UserExistException, UserEntity, IUser} from "@slice";
 
 @Injectable()
-export class UserRepositories {
+export class UserRepository {
 	constructor(
 		@InjectModel(User.name)
 		private readonly userModel: UserModel,

@@ -5,15 +5,15 @@ import {
 	UserEntity,
 	WrongLoginOrPassException,
 	WrongTokenRefreshException,
-} from "@app-tasks/account";
+} from "@slice";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
-import {UserRepositories} from "../user/user.repositories";
+import {UserRepository} from "@src/app/user/user.repository";
 
 @Injectable()
 export class AuthService {
 	constructor(
-		private readonly userRepositories: UserRepositories,
+		private readonly userRepository: UserRepository,
 		private readonly configService: ConfigService,
 		private readonly jwtService: JwtService,
 	) {}
@@ -21,14 +21,14 @@ export class AuthService {
 	async register(
 		dto: AccountContracts.Auth.register.RequestDto,
 	): Promise<AccountContracts.Auth.register.ResponseDto> {
-		await this.userRepositories.exist({email: dto.email}, true);
+		await this.userRepository.exist({email: dto.email}, true);
 		const newUserEntity = await new UserEntity({
 			name: dto.name,
 			email: dto.email,
 			passwordHash: "",
 		}).setPassword(dto.password, Number(this.configService.get("SALT")));
 
-		const newUser = await this.userRepositories.createUser(newUserEntity);
+		const newUser = await this.userRepository.createUser(newUserEntity);
 		const userEntity = new UserEntity(newUser); // создаем новый UserEntity так записали в базу нового пользователя и у него теперь есть id
 
 		const tokens = await this.getTokens(userEntity);
@@ -36,7 +36,7 @@ export class AuthService {
 			tokens.tokenRefresh,
 			Number(this.configService.get("SALT")),
 		);
-		await this.userRepositories.updateUserById(newUser.id, {tokenRefreshHash});
+		await this.userRepository.updateUserById(newUser.id, {tokenRefreshHash});
 
 		return tokens;
 	}
@@ -45,7 +45,7 @@ export class AuthService {
 		email,
 		password,
 	}: AccountContracts.Auth.login.RequestDto): Promise<AccountContracts.Auth.login.ResponseDto> {
-		const user = await this.userRepositories.findUserByEmail(email);
+		const user = await this.userRepository.findUserByEmail(email);
 		if (!user) throw new WrongLoginOrPassException();
 		const userEntity = new UserEntity(user);
 
@@ -57,7 +57,7 @@ export class AuthService {
 			tokens.tokenRefresh,
 			Number(this.configService.get("SALT")),
 		);
-		await this.userRepositories.updateUserById(userEntity.id, {
+		await this.userRepository.updateUserById(userEntity.id, {
 			tokenRefreshHash,
 		});
 
@@ -65,7 +65,7 @@ export class AuthService {
 	}
 
 	async logout({userId}: AccountContracts.Auth.logout.RequestDto) {
-		return this.userRepositories.updateUserById(userId, {
+		return this.userRepository.updateUserById(userId, {
 			tokenRefreshHash: null,
 		});
 	}
@@ -74,7 +74,7 @@ export class AuthService {
 		userId,
 		refreshToken,
 	}: AccountContracts.Auth.refreshToken.RequestDto) {
-		const user = await this.userRepositories.findUserById(userId);
+		const user = await this.userRepository.findUserById(userId);
 		const userEntity = new UserEntity(user);
 		if (!user || !user.tokenRefreshHash) throw new WrongTokenRefreshException();
 
@@ -86,7 +86,7 @@ export class AuthService {
 			tokens.tokenRefresh,
 			Number(this.configService.get("SALT")),
 		);
-		await this.userRepositories.updateUserById(user.id, {tokenRefreshHash});
+		await this.userRepository.updateUserById(user.id, {tokenRefreshHash});
 
 		return tokens;
 	}

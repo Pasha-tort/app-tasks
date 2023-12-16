@@ -13,13 +13,13 @@
         "outputPath": "dist/apps/client/main-webapp",
         "index": "apps/client/main-webapp/src/app/index.html",
         "baseHref": "/",
-        "main": "apps/client/main-webapp/src/app/main.tsx",
+        "main": "apps/client/main-webapp/src/index.tsx",
         "tsConfig": "apps/client/main-webapp/tsconfig.app.json",
         "assets": [
           "apps/client/main-webapp/src/app/favicon.ico",
-          "apps/client/main-webapp/src/**/assets"
+          "apps/client/main-webapp/src/assets"
         ],
-        "styles": ["apps/client/main-webapp/src/app/styles.scss"],
+        "styles": ["apps/client/main-webapp/src/app/styles/index.scss"],
         "scripts": [],
         "isolatedConfig": true,
         "webpackConfig": "apps/client/main-webapp/webpack.config.js",
@@ -35,8 +35,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/client/main-webapp/src/environments/environment.ts",
-              "with": "apps/client/main-webapp/src/environments/environment.prod.ts"
+              "replace": "apps/client/main-webapp/src/configs/environments/environment.ts",
+              "with": "apps/client/main-webapp/src/configs/environments/environment.prod.ts"
             }
           ],
           "optimization": true,

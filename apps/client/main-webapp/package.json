@@ -1,6 +1,5 @@
 {
-	"name": "@apps/main-webapp",
-	"type": "module",
+	"name": "@app-tasks/main-webapp",
 	"version": "0.0.1",
 	"dependencies": {
 		"tslib": "^2.3.0"

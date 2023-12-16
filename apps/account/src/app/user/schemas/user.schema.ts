@@ -1,4 +1,4 @@
-import {IUser} from "@app-tasks/account";
+import {IUser} from "@slice";
 import {Prop, Schema, SchemaFactory, ModelDefinition} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {Document} from "mongoose";

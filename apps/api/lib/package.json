@@ -3,9 +3,7 @@
 	"version": "0.0.1",
 	"dependencies": {
 		"tslib": "^2.3.0",
-		"@app-tasks/configs": "^0.0.1",
-		"@app-tasks/account": "^0.0.1",
-		"@app-tasks/http": "^0.0.1"
+		"@app-tasks/account": "^0.0.1"
 	},
 	"type": "commonjs",
 	"main": "./src/index.js",

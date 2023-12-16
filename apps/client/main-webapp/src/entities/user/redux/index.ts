@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IUser} from "#";
+import {IUser} from "src/shared";
 
 const initialState: IUser = {
 	accessToken: "",
@@ -18,3 +18,5 @@ const UserSlice = createSlice({
 		tokenRefresh(state, action) {},
 	},
 });
+
+export default UserSlice;
