@@ -1,1 +1,1 @@
-export const api = {};
+export * from "./base.http-service";

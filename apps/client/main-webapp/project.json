@@ -16,7 +16,7 @@
         "main": "apps/client/main-webapp/src/index.tsx",
         "tsConfig": "apps/client/main-webapp/tsconfig.app.json",
         "assets": [
-          "apps/client/main-webapp/src/app/favicon.ico",
+          "apps/client/main-webapp/src/app/assets/favicon.ico",
           "apps/client/main-webapp/src/assets"
         ],
         "styles": ["apps/client/main-webapp/src/app/styles/index.scss"],

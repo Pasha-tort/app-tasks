@@ -2,12 +2,11 @@ import {Controller, Post, Body, Res, HttpStatus} from "@nestjs/common";
 import {Response} from "express";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
-import {AccountContracts, IJwtPayload, IUserBaseData} from "@app-tasks/account";
+import {AccountContracts, IUserBaseData} from "@app-tasks/account";
 import {UserService} from "./user.service";
 import {RefreshTokenExtractor} from "../decorators/refresh-token-extractor.decorator";
 import {createCookie} from "../helpers/create-cookie";
 import {ConfigService} from "@nestjs/config";
-import {JwtService} from "@nestjs/jwt";
 import {RefreshTokenEntrypoint} from "../decorators/is-refresh-token.decorator";
 
 @Controller("user")
@@ -15,13 +14,17 @@ export class UserController {
 	constructor(
 		private readonly userService: UserService,
 		private readonly configService: ConfigService,
-		private readonly jwtService: JwtService,
 	) {}
 
 	@Post("register")
 	@Public()
-	async register(@Body() body: AccountContracts.Auth.register.RequestDto) {
-		return this.userService.register(body);
+	async register(
+		@Body() body: AccountContracts.Auth.register.RequestDto,
+		@Res() res: Response,
+	) {
+		const {tokenAccess, tokenRefresh} = await this.userService.register(body);
+		this.genCookies(res, tokenRefresh, tokenAccess);
+		return res.status(HttpStatus.OK).json();
 	}
 
 	@Post("login")
@@ -32,30 +35,19 @@ export class UserController {
 		{tokenAccess, tokenRefresh}: AccountContracts.Auth.login.ResponseDto, // здесь такой тип, потому что localStrategy в request.user кладет именно эти данные
 		@Res() res: Response,
 	) {
-		const decodedTokenRefresh =
-			this.jwtService.decode<IJwtPayload>(tokenRefresh);
-		const decodedTokenAccess = this.jwtService.decode<IJwtPayload>(tokenAccess);
-
-		createCookie(
-			res,
-			this.configService.get("configService") || "tokenRefresh",
-			tokenRefresh,
-			{expire: decodedTokenRefresh.exp * 1000},
-		);
-		return res
-			.status(HttpStatus.OK)
-			.json({tokenAccess, expire: decodedTokenAccess.exp * 1000});
+		this.genCookies(res, tokenRefresh, tokenAccess);
+		return res.status(HttpStatus.OK).json();
 	}
 
 	@Post("logout")
 	async logout(@UserExtractor() user: IUserBaseData, @Res() res: Response) {
 		await this.userService.logout({userId: user.id});
-		createCookie(
+		createCookie({
 			res,
-			this.configService.get("configService") || "tokenRefresh",
-			"",
-			{expire: Date.now()},
-		);
+			key: this.configService.get("KEY_COOKIE_TOKEN_REFRESH") || "tokenRefresh",
+			hash: "",
+			path: "/api/user/refresh-token",
+		});
 		return res.status(HttpStatus.OK).json();
 	}
 
@@ -71,19 +63,22 @@ export class UserController {
 			refreshToken: token,
 		});
 
-		const decodedTokenAccess =
-			this.jwtService.decode<IJwtPayload>(tokenRefresh);
-		const decodedTokenRefresh =
-			this.jwtService.decode<IJwtPayload>(tokenRefresh);
+		this.genCookies(res, tokenRefresh, tokenAccess);
+		return res.status(HttpStatus.OK).json();
+	}
 
-		createCookie(
+	private genCookies(res: Response, tokenRefresh: string, tokenAccess: string) {
+		createCookie({
 			res,
-			this.configService.get("configService") || "tokenRefresh",
-			tokenRefresh,
-			{expire: decodedTokenRefresh.exp * 1000},
-		);
-		return res
-			.status(HttpStatus.OK)
-			.json({tokenAccess, expire: decodedTokenAccess.exp * 1000});
+			key: this.configService.get("KEY_COOKIE_TOKEN_REFRESH") || "tokenRefresh",
+			hash: tokenRefresh,
+			path: "/api/user/refresh-token",
+		});
+		createCookie({
+			res,
+			key: this.configService.get("KEY_COOKIE_TOKEN_ACCESS") || "tokenAccess",
+			hash: tokenAccess,
+			httpOnly: false,
+		});
 	}
 }
