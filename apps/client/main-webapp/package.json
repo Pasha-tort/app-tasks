@@ -2,9 +2,7 @@
 	"name": "@app-tasks/main-webapp",
 	"version": "0.0.1",
 	"dependencies": {
-		"axios": "^1.6.2",
-		"tslib": "^2.3.0",
-		"use-http": "^1.0.28"
+		"tslib": "^2.3.0"
 	},
 	"main": "./src/index.tsx",
 	"typings": "./src/index.d.ts"

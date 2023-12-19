@@ -1,6 +1,5 @@
 import {PayloadAction, createSlice} from "@reduxjs/toolkit";
 import {IUserBaseData} from "@app-tasks/account/src/slice";
-import {RootState} from "../store";
 
 const initialState: IUserBaseData = {
 	id: "",
@@ -22,9 +21,14 @@ const currentUserSlice = createSlice({
 			state = initialState;
 		},
 	},
+	selectors: {
+		selectCurrentUser(state: IUserBaseData) {
+			return state;
+		},
+	},
 });
 
-export const selectCurrentUser = (state: RootState) => state.currentUser;
+export const {selectCurrentUser} = currentUserSlice.selectors;
 export const {
 	register: registerAction,
 	login: loginAction,

@@ -1,0 +1,10 @@
+@import "../variable.scss";
+
+.emptyPage {
+  height: 100vh;
+  background: $full-page-gradient;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

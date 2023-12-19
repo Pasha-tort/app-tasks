@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {reducerCurrentUser} from "./auth";
+import {currentUserReducer} from "./user";
 
 export const store = configureStore({
 	reducer: {
-		currentUser: reducerCurrentUser,
+		currentUser: currentUserReducer,
 	},
 });
 

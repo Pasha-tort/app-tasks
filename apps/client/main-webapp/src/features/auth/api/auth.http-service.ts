@@ -5,23 +5,17 @@ export class AuthHttpService extends BaseHttpService {
 	basePath = "/auth";
 
 	async register(body: ApiAccountContracts.Auth.register.RequestDto) {
-		return this.getRequest(
-			{
-				path: "/register",
-				body,
-			},
-			ApiAccountContracts.Auth.register.ResponseDto,
-		);
+		return this.getRequest<ApiAccountContracts.Auth.register.ResponseDto>({
+			path: "/register",
+			body,
+		});
 	}
 
 	async login(body: ApiAccountContracts.Auth.login.RequestDto) {
-		return this.getRequest(
-			{
-				path: "/login",
-				body,
-			},
-			ApiAccountContracts.Auth.login.ResponseDto,
-		);
+		return this.getRequest<ApiAccountContracts.Auth.login.ResponseDto>({
+			path: "/login",
+			body,
+		});
 	}
 
 	async logout() {
