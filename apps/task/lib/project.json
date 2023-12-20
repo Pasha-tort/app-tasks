@@ -1,0 +1,29 @@
+{
+	"name": "task-lib",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/task/lib/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nx/js:tsc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/apps/task/lib",
+				"main": "apps/task/lib/src/index.ts",
+				"tsConfig": "apps/task/lib/tsconfig.lib.json",
+				"assets": ["apps/task/lib/*.md"]
+			}
+		},
+		"lint": {
+			"executor": "@nx/eslint:lint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": [
+					"apps/task/lib/**/*.ts",
+					"apps/task/lib/package.json"
+				]
+			}
+		}
+	},
+	"tags": []
+}
