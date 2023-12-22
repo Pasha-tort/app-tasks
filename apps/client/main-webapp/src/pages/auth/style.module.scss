@@ -1,1 +1,7 @@
-@import "src/shared/scss/pages/index.scss";
+@import "src/shared/scss/variable.scss";
+
+.auth-page {
+  height: 100vh;
+  background: $full-page-gradient;
+  padding-top: 25vh;
+}

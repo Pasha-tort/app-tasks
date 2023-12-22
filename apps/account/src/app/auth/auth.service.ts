@@ -38,7 +38,12 @@ export class AuthService {
 		);
 		await this.userRepository.updateUserById(newUser.id, {tokenRefreshHash});
 
-		return tokens;
+		return {
+			...tokens,
+			name: newUser.name,
+			email: newUser.email,
+			id: newUser.id || newUser._id.toString(),
+		};
 	}
 
 	async login({
@@ -61,7 +66,12 @@ export class AuthService {
 			tokenRefreshHash,
 		});
 
-		return tokens;
+		return {
+			...tokens,
+			name: userEntity.name,
+			email: userEntity.email,
+			id: userEntity.id,
+		};
 	}
 
 	async logout({userId}: AccountContracts.Auth.logout.RequestDto) {

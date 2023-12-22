@@ -1,39 +1,33 @@
-import {Button, Form as FormUI, Input} from "antd";
-import {ApiAccountContracts} from "@app-tasks/api/src";
-import {Form} from "react-hook-form";
-import style from "./style.module.scss";
-import {loginAction} from "src/shared/redux";
+import {Form, Input} from "antd";
+import {ApiUserContracts} from "@app-tasks/http";
+import {ButtonSubmit, FormWrapper} from "src/shared";
+import {useCallback} from "react";
 
 export const LoginFeature = () => {
+	const submit = useCallback((data: ApiUserContracts.Auth.login.RequestDto) => {
+		console.log(data);
+	}, []);
 	return (
-		<Form onSubmit={loginAction}>
-			<FormUI
-				name="basic"
-				labelCol={{span: 8}}
-				wrapperCol={{span: 16}}
-				style={{maxWidth: 600}}
-				autoComplete="off"
-				className={style["auth-feature"]}>
-				<FormUI.Item<ApiAccountContracts.Auth.login.RequestDto>
-					label="Укажите вашу почту"
-					name="email"
-					rules={[{required: true, message: "Укажите вашу почту"}]}>
-					<Input />
-				</FormUI.Item>
+		<FormWrapper<ApiUserContracts.Auth.login.RequestDto>
+			submit={submit}
+			name="login"
+			style={{maxWidth: 400, width: "90vw"}}
+			layout="vertical">
+			<Form.Item<ApiUserContracts.Auth.login.RequestDto["email"]>
+				label="Укажите вашу почту"
+				name="email"
+				rules={[{required: true, message: "Укажите вашу почту"}]}>
+				<Input />
+			</Form.Item>
 
-				<FormUI.Item<ApiAccountContracts.Auth.login.RequestDto>
-					label="Укажите ваш пароль"
-					name="password"
-					rules={[{required: true, message: "Укажите ваш пароль"}]}>
-					<Input.Password />
-				</FormUI.Item>
+			<Form.Item<ApiUserContracts.Auth.login.RequestDto["password"]>
+				label="Укажите ваш пароль"
+				name="password"
+				rules={[{required: true, message: "Укажите ваш пароль"}]}>
+				<Input.Password />
+			</Form.Item>
 
-				<FormUI.Item wrapperCol={{offset: 8, span: 16}}>
-					<Button type="primary" htmlType="submit">
-						Submit
-					</Button>
-				</FormUI.Item>
-			</FormUI>
-		</Form>
+			<ButtonSubmit />
+		</FormWrapper>
 	);
 };

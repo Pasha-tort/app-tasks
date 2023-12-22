@@ -1,12 +1,16 @@
-import {Layout} from "antd";
-import {LoginWidget} from "src/widgetes/auth";
+import {Space} from "antd";
 import style from "./style.module.scss";
+import {AuthWidget} from "src/widgetes/auth/auth";
+import {Logo} from "src/shared";
 
 const AuthPage = () => {
 	return (
-		<Layout className={style.emptyPage}>
-			<LoginWidget />
-		</Layout>
+		<div className={style["auth-page"]}>
+			<Space style={{display: "flex", flexDirection: "column"}}>
+				<Logo />
+				<AuthWidget />
+			</Space>
+		</div>
 	);
 };
 

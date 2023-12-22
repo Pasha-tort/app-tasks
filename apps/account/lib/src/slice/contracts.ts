@@ -1,6 +1,6 @@
 import {Exclude, Expose} from "class-transformer";
 import {IsEmail, IsString} from "class-validator";
-import {IUser} from "./user.interface";
+import {IUser, IUserBaseData} from "./user.interface";
 
 export namespace AccountContracts {
 	export namespace User {
@@ -51,7 +51,16 @@ export namespace AccountContracts {
 			}
 
 			@Exclude()
-			export class ResponseDto extends Tokens {}
+			export class ResponseDto extends Tokens implements IUserBaseData {
+				@Expose()
+				name: string;
+
+				@Expose()
+				email: string;
+
+				@Expose()
+				id: string;
+			}
 		}
 
 		export namespace login {
@@ -69,12 +78,15 @@ export namespace AccountContracts {
 			}
 
 			@Exclude()
-			export class ResponseDto {
+			export class ResponseDto extends Tokens implements IUserBaseData {
 				@Expose()
-				tokenAccess: string;
+				name: string;
 
 				@Expose()
-				tokenRefresh: string;
+				email: string;
+
+				@Expose()
+				id: string;
 			}
 		}
 

@@ -8,6 +8,7 @@ import {RefreshTokenExtractor} from "../decorators/refresh-token-extractor.decor
 import {createCookie} from "../helpers/create-cookie";
 import {ConfigService} from "@nestjs/config";
 import {RefreshTokenEntrypoint} from "../decorators/is-refresh-token.decorator";
+import {ApiUserContracts} from "../contracts/user.contracts";
 
 @Controller("user")
 export class UserController {
@@ -19,12 +20,14 @@ export class UserController {
 	@Post("register")
 	@Public()
 	async register(
-		@Body() body: AccountContracts.Auth.register.RequestDto,
-		@Res() res: Response,
+		@Body() body: ApiUserContracts.Auth.register.RequestDto,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		@Res() res: Response<ApiUserContracts.Auth.register.ResponseDto>,
 	) {
-		const {tokenAccess, tokenRefresh} = await this.userService.register(body);
-		this.genCookies(res, tokenRefresh, tokenAccess);
-		return res.status(HttpStatus.OK).json();
+		const {tokenRefresh, ...response} = await this.userService.register(body);
+		this.genCookies(res, tokenRefresh);
+		const t = response as ApiUserContracts.Auth.register.ResponseDto;
+		return res.status(HttpStatus.OK).json(t);
 	}
 
 	@Post("login")
@@ -32,11 +35,11 @@ export class UserController {
 	@LocalAuthGuard()
 	async login(
 		@UserExtractor()
-		{tokenAccess, tokenRefresh}: AccountContracts.Auth.login.ResponseDto, // здесь такой тип, потому что localStrategy в request.user кладет именно эти данные
-		@Res() res: Response,
+		{tokenRefresh, ...response}: AccountContracts.Auth.login.ResponseDto, // здесь такой тип, потому что localStrategy в request.user кладет именно эти данные
+		@Res() res: Response<ApiUserContracts.Auth.register.ResponseDto>,
 	) {
-		this.genCookies(res, tokenRefresh, tokenAccess);
-		return res.status(HttpStatus.OK).json();
+		this.genCookies(res, tokenRefresh);
+		return res.status(HttpStatus.OK).json(response);
 	}
 
 	@Post("logout")
@@ -56,29 +59,23 @@ export class UserController {
 	async refreshToken(
 		@UserExtractor() {id}: IUserBaseData,
 		@RefreshTokenExtractor() token: string,
-		@Res() res: Response,
+		@Res() res: Response<ApiUserContracts.Auth.tokenRefresh.ResponseDto>,
 	) {
 		const {tokenAccess, tokenRefresh} = await this.userService.refreshToken({
 			userId: id,
 			refreshToken: token,
 		});
 
-		this.genCookies(res, tokenRefresh, tokenAccess);
-		return res.status(HttpStatus.OK).json();
+		this.genCookies(res, tokenRefresh);
+		return res.status(HttpStatus.OK).json({tokenAccess});
 	}
 
-	private genCookies(res: Response, tokenRefresh: string, tokenAccess: string) {
+	private genCookies(res: Response, tokenRefresh: string) {
 		createCookie({
 			res,
 			key: this.configService.get("KEY_COOKIE_TOKEN_REFRESH") || "tokenRefresh",
 			hash: tokenRefresh,
 			path: "/api/user/refresh-token",
-		});
-		createCookie({
-			res,
-			key: this.configService.get("KEY_COOKIE_TOKEN_ACCESS") || "tokenAccess",
-			hash: tokenAccess,
-			httpOnly: false,
 		});
 	}
 }

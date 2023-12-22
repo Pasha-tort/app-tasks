@@ -9,6 +9,12 @@ async function bootstrap() {
 	const globalPrefix = "api";
 	app.setGlobalPrefix(globalPrefix);
 	app.use(cookieParser());
+	app.enableCors({
+		origin: "http://localhoost:4200",
+		methods: "GET,POST",
+		allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
+		credentials: true,
+	});
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: true,
@@ -17,8 +23,9 @@ async function bootstrap() {
 			},
 		}),
 	);
+	// app.useGlobalInterceptors(new CorsInterceptors());
 	app.useGlobalFilters(new CustomExceptionFilter());
-	const port = process.env.PORT || 3000;
+	const port = process.env.PORT || 3001;
 	await app.listen(port);
 	Logger.log(
 		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
