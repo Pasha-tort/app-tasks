@@ -1,34 +1,20 @@
+import {IsEmail, IsJWT, IsMongoId, IsString} from "class-validator";
 import {Exclude, Expose} from "class-transformer";
-import {IsEmail, IsString} from "class-validator";
 import {IUser, IUserBaseData} from "./user.interface";
 
 export namespace AccountContracts {
 	export namespace User {
-		@Exclude()
 		export class User implements IUser {
-			@Expose()
 			id?: string;
-
-			@Expose()
 			name: string;
-
-			@Expose()
 			email: string;
-
-			@Expose()
 			passwordHash: string;
-
-			@Expose()
 			tokenRefresh?: string;
 		}
 	}
 
-	@Exclude()
 	export class Tokens {
-		@Expose()
 		tokenAccess: string;
-
-		@Expose()
 		tokenRefresh: string;
 	}
 	export namespace Auth {
@@ -36,9 +22,9 @@ export namespace AccountContracts {
 			export const topic = "account.register.command";
 
 			@Exclude()
-			export class RequestDto implements Omit<IUser, "passwordHash"> {
+			export class RequestDto implements Pick<IUser, "email" | "name"> {
 				@Expose()
-				@IsEmail()
+				@IsEmail({}, {message: "Поле email должно быть валидным"})
 				email: string;
 
 				@Expose()
@@ -50,15 +36,9 @@ export namespace AccountContracts {
 				name: string;
 			}
 
-			@Exclude()
 			export class ResponseDto extends Tokens implements IUserBaseData {
-				@Expose()
 				name: string;
-
-				@Expose()
 				email: string;
-
-				@Expose()
 				id: string;
 			}
 		}
@@ -77,40 +57,38 @@ export namespace AccountContracts {
 				password: string;
 			}
 
-			@Exclude()
 			export class ResponseDto extends Tokens implements IUserBaseData {
-				@Expose()
 				name: string;
-
-				@Expose()
 				email: string;
-
-				@Expose()
 				id: string;
 			}
 		}
 
 		export namespace logout {
 			export const topic = "account.logout.command";
+
 			@Exclude()
 			export class RequestDto {
 				@Expose()
+				@IsMongoId()
 				userId: string;
 			}
 		}
 
 		export namespace refreshToken {
 			export const topic = "account.refreshToken.command";
+
 			@Exclude()
 			export class RequestDto {
 				@Expose()
+				@IsMongoId()
 				userId: string;
 
 				@Expose()
+				@IsJWT()
 				refreshToken: string;
 			}
 
-			@Exclude()
 			export class ResponseDto extends Tokens {}
 		}
 	}

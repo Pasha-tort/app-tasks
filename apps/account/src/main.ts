@@ -11,11 +11,11 @@ async function bootstrap() {
 		transport: Transport.TCP,
 		options: {
 			host: HOST,
-			port,
+			port: port,
 		},
 	});
 	app.listen();
-	Logger.log(`🚀 Microservice is running on: http://${HOST}:${port}`);
+	Logger.log(`🚀 Microservice is running on: http://${HOST}:${port}`); // порт указывается в файле project.json
 }
 
 bootstrap();

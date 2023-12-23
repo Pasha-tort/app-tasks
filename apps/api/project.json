@@ -28,7 +28,6 @@
 			"defaultConfiguration": "development",
 			"options": {
 				"buildTarget": "api:build",
-				"port": 3001,
 				"runBuildTargetDependencies": true
 			},
 			"configurations": {

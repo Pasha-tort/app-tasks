@@ -28,7 +28,10 @@
 			"defaultConfiguration": "development",
 			"options": {
 				"buildTarget": "account:build",
-				"runBuildTargetDependencies": true
+				"runBuildTargetDependencies": true,
+				"inspect": "inspect",
+				"host": "localhost",
+				"port": 9230
 			},
 			"configurations": {
 				"development": {

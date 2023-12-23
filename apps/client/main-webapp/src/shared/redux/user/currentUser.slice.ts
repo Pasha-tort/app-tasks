@@ -10,7 +10,7 @@ import {ApiUserContracts} from "@app-tasks/http";
 export const registerAction = createAsyncThunk(
 	"register",
 	async (body: ApiUserContracts.Auth.register.RequestDto) => {
-		const data = await clientHttp.auth.register(body);
+		const data = await clientHttp.user.register(body);
 		return data;
 	},
 );
@@ -21,7 +21,7 @@ const registerReducer = (
 		state.error = null;
 		state.status = "loading";
 	});
-	builder.addCase(registerAction.fulfilled, (state, {payload}) => {
+	builder.addCase(registerAction.fulfilled, (state, payload) => {
 		return {
 			...state,
 			status: "succeeded",
@@ -36,7 +36,7 @@ const registerReducer = (
 export const loginAction = createAsyncThunk(
 	"login",
 	async (body: ApiUserContracts.Auth.login.RequestDto) => {
-		const data = await clientHttp.auth.login(body);
+		const data = await clientHttp.user.login(body);
 		return data;
 	},
 );
@@ -44,7 +44,7 @@ const loginReducer = (builder: ActionReducerMapBuilder<StateCurrentUser>) => {
 	builder.addCase(loginAction.pending, state => {
 		state.status = "loading";
 	});
-	builder.addCase(loginAction.fulfilled, (state, {payload}) => {
+	builder.addCase(loginAction.fulfilled, (state, payload) => {
 		return {
 			...state,
 			status: "succeeded",
@@ -56,7 +56,7 @@ const loginReducer = (builder: ActionReducerMapBuilder<StateCurrentUser>) => {
 export const logoutAction = createAsyncThunk(
 	"logout",
 	async (body: ApiUserContracts.Auth.logout.RequestDto) => {
-		const data = await clientHttp.auth.logout(body);
+		const data = await clientHttp.user.logout(body);
 		return data;
 	},
 );

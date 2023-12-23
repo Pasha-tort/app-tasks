@@ -18,15 +18,17 @@ export class AuthService {
 		private readonly jwtService: JwtService,
 	) {}
 
-	async register(
-		dto: AccountContracts.Auth.register.RequestDto,
-	): Promise<AccountContracts.Auth.register.ResponseDto> {
-		await this.userRepository.exist({email: dto.email}, true);
+	async register({
+		name,
+		email,
+		password,
+	}: AccountContracts.Auth.register.RequestDto): Promise<AccountContracts.Auth.register.ResponseDto> {
+		await this.userRepository.exist({email}, true);
 		const newUserEntity = await new UserEntity({
-			name: dto.name,
-			email: dto.email,
+			name,
+			email,
 			passwordHash: "",
-		}).setPassword(dto.password, Number(this.configService.get("SALT")));
+		}).setPassword(password, Number(this.configService.get("SALT")));
 
 		const newUser = await this.userRepository.createUser(newUserEntity);
 		const userEntity = new UserEntity(newUser); // создаем новый UserEntity так записали в базу нового пользователя и у него теперь есть id

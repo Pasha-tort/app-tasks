@@ -26,7 +26,6 @@ export const LoginFeature = () => {
 				rules={[{required: true, message: "Укажите ваш пароль"}]}>
 				<Input.Password />
 			</Form.Item>
-
 			<ButtonSubmit />
 		</FormWrapper>
 	);

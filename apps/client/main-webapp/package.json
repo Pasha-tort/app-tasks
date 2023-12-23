@@ -5,6 +5,5 @@
 		"tslib": "^2.3.0"
 	},
 	"main": "./src/index.tsx",
-	"proxy": "http://localhost:3001/api",
 	"typings": "./src/index.d.ts"
 }

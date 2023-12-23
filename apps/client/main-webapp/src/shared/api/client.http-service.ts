@@ -1,5 +1,5 @@
-import {AuthHttpService} from "./auth.http-service";
+import {UserHttpService} from "./auth.http-service";
 
 export const clientHttp = {
-	auth: new AuthHttpService(),
+	user: new UserHttpService(),
 };

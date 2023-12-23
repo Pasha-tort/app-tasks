@@ -1,15 +1,13 @@
-import {Exclude, Expose} from "class-transformer";
+import {Allow} from "class-validator";
 
 export namespace ApiTaskContracts {
 	export namespace addTask {
 		export class RequestDto {
-			@Expose()
+			@Allow()
 			task: string;
 		}
 
-		@Exclude()
 		export class ResponseDto {
-			@Expose()
 			response: string;
 		}
 	}

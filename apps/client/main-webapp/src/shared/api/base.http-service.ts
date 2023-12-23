@@ -1,5 +1,4 @@
 import {METHODS} from "./types";
-import axios, {AxiosHeaders} from "axios";
 
 export class BaseHttpService {
 	protected basePath: string;
@@ -7,24 +6,24 @@ export class BaseHttpService {
 		path,
 		body,
 		method = METHODS.GET,
-		params,
 	}: {
 		path: string;
-		body?: object | BodyInit;
+		body?: object;
 		method?: METHODS;
-		params?: string;
 	}) {
-		const headersGen = new AxiosHeaders();
-		headersGen.set("Accept", "application/json");
-		headersGen.set("Content-Type", "application/json, multipart/form-data");
+		const headers = {
+			"Content-Type": "application/json",
+		};
 		// headersGen.set("test-cookie", "test");
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		return axios.request<any, ResDto>({
-			method,
-			url: `http://localhost:3001${this.basePath}${path}`,
-			data: body,
-			headers: headersGen,
-			params,
-		});
+		const data = JSON.stringify(body);
+		const response = await fetch(
+			`http://localhost:3001/api${this.basePath}${path}`,
+			{
+				method,
+				body: data,
+				headers,
+			},
+		);
+		return response.json() as Promise<ResDto>;
 	}
 }

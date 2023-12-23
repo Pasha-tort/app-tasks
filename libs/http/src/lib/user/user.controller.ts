@@ -21,7 +21,6 @@ export class UserController {
 	@Public()
 	async register(
 		@Body() body: ApiUserContracts.Auth.register.RequestDto,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		@Res() res: Response<ApiUserContracts.Auth.register.ResponseDto>,
 	) {
 		const {tokenRefresh, ...response} = await this.userService.register(body);

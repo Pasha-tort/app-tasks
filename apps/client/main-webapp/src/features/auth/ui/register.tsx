@@ -46,7 +46,6 @@ export const RegisterFeature = () => {
 				}>
 				<Input />
 			</Form.Item>
-
 			<ButtonSubmit />
 		</FormWrapper>
 	);

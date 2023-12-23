@@ -1,5 +1,5 @@
 import {AccountContracts} from "@app-tasks/account";
-import {Exclude, Expose} from "class-transformer";
+import {Exclude} from "class-transformer";
 
 export namespace ApiUserContracts {
 	export namespace Auth {
@@ -8,21 +8,13 @@ export namespace ApiUserContracts {
 			export class RequestDto extends AccountContracts.Auth.register
 				.RequestDto {}
 
-			@Exclude()
 			export class ResponseDto
 				implements
 					Omit<AccountContracts.Auth.register.ResponseDto, "tokenRefresh">
 			{
-				@Expose()
 				tokenAccess: string;
-
-				@Expose()
 				name: string;
-
-				@Expose()
 				email: string;
-
-				@Expose()
 				id: string;
 			}
 		}
@@ -31,21 +23,16 @@ export namespace ApiUserContracts {
 			@Exclude()
 			export class RequestDto extends AccountContracts.Auth.login.RequestDto {}
 
-			@Exclude()
 			export class ResponseDto
 				implements
 					Omit<AccountContracts.Auth.login.ResponseDto, "tokenRefresh">
 			{
-				@Expose()
 				tokenAccess: string;
 
-				@Expose()
 				name: string;
 
-				@Expose()
 				email: string;
 
-				@Expose()
 				id: string;
 			}
 		}
@@ -60,12 +47,10 @@ export namespace ApiUserContracts {
 			export class RequestDto extends AccountContracts.Auth.refreshToken
 				.RequestDto {}
 
-			@Exclude()
 			export class ResponseDto
 				implements
 					Omit<AccountContracts.Auth.refreshToken.ResponseDto, "tokenRefresh">
 			{
-				@Expose()
 				tokenAccess: string;
 			}
 		}

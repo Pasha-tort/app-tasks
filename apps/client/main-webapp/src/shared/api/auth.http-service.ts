@@ -2,8 +2,8 @@ import {BaseHttpService} from "./base.http-service";
 import {ApiUserContracts} from "@app-tasks/http";
 import {METHODS} from "./types";
 
-export class AuthHttpService extends BaseHttpService {
-	basePath = "/auth";
+export class UserHttpService extends BaseHttpService {
+	basePath = "/user";
 
 	async register(body: ApiUserContracts.Auth.register.RequestDto) {
 		return this.sendRequest<ApiUserContracts.Auth.register.ResponseDto>({
