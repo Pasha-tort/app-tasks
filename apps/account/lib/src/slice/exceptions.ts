@@ -19,7 +19,6 @@ export class WrongTokenRefreshException extends RMQError {
 	}
 }
 
-//TODO пока не разу не используется если так и продолжится, то удалить
 export class UserNotFoundException extends RMQError {
 	constructor() {
 		super("Пользователь не найден", ERROR_TYPE.TRANSPORT);

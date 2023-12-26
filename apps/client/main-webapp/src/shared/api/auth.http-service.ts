@@ -1,11 +1,12 @@
 import {BaseHttpService} from "./base.http-service";
 import {ApiUserContracts} from "@app-tasks/http";
 import {METHODS} from "./types";
+import {pathTokenRefresh} from "./constants";
 
 export class UserHttpService extends BaseHttpService {
 	basePath = "/user";
 
-	async register(body: ApiUserContracts.Auth.register.RequestDto) {
+	register(body: ApiUserContracts.Auth.register.RequestDto) {
 		return this.sendRequest<ApiUserContracts.Auth.register.ResponseDto>({
 			path: "/register",
 			body,
@@ -13,7 +14,7 @@ export class UserHttpService extends BaseHttpService {
 		});
 	}
 
-	async login(body: ApiUserContracts.Auth.login.RequestDto) {
+	login(body: ApiUserContracts.Auth.login.RequestDto) {
 		return this.sendRequest<ApiUserContracts.Auth.login.ResponseDto>({
 			path: "/login",
 			body,
@@ -21,18 +22,24 @@ export class UserHttpService extends BaseHttpService {
 		});
 	}
 
-	async logout(body: ApiUserContracts.Auth.logout.RequestDto) {
+	logout() {
 		return this.sendRequest({
 			path: "/logout",
-			body,
 			method: METHODS.POST,
 		});
 	}
 
-	async tokenRefresh() {
+	tokenRefresh() {
 		return this.sendRequest({
-			path: "/token-refresh",
+			path: pathTokenRefresh,
 			method: METHODS.POST,
+		});
+	}
+
+	checkToken() {
+		return this.sendRequest({
+			path: "/check-token",
+			method: METHODS.GET,
 		});
 	}
 }

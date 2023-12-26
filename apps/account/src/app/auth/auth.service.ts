@@ -52,7 +52,7 @@ export class AuthService {
 		email,
 		password,
 	}: AccountContracts.Auth.login.RequestDto): Promise<AccountContracts.Auth.login.ResponseDto> {
-		const user = await this.userRepository.findUserByEmail(email);
+		const user = await this.userRepository.findUserByEmail(email, true);
 		if (!user) throw new WrongLoginOrPassException();
 		const userEntity = new UserEntity(user);
 
@@ -86,7 +86,7 @@ export class AuthService {
 		userId,
 		refreshToken,
 	}: AccountContracts.Auth.refreshToken.RequestDto) {
-		const user = await this.userRepository.findUserById(userId);
+		const user = await this.userRepository.findUserById(userId, true);
 		const userEntity = new UserEntity(user);
 		if (!user || !user.tokenRefreshHash) throw new WrongTokenRefreshException();
 

@@ -1,8 +1,11 @@
 import currentUserReducer from "./currentUser.slice";
+
+export {currentUserReducer};
+export {selectCurrentUser} from "./currentUser.slice";
 export {
+	registerAction,
 	loginAction,
 	logoutAction,
-	registerAction,
-	selectCurrentUser,
-} from "./currentUser.slice";
-export {currentUserReducer};
+	tokenRefreshAction,
+	checkTokenAction,
+} from "./reducers";

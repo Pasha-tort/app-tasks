@@ -24,6 +24,6 @@ export class UserModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(TokenRefreshExtractorMiddleware)
-			.forRoutes("user/refresh-token");
+			.forRoutes("/user/token-refresh");
 	}
 }

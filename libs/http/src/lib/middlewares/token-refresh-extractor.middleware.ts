@@ -1,10 +1,15 @@
 import {IJwtPayload} from "@app-tasks/account";
-import {HttpStatus, Injectable, Logger, NestMiddleware} from "@nestjs/common";
+import {
+	HttpException,
+	HttpStatus,
+	Injectable,
+	Logger,
+	NestMiddleware,
+} from "@nestjs/common";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
 import {Request, Response, NextFunction} from "express";
 import {NAME_FIELD_REFRESH_TOKEN_TO_REQUEST} from "../constants";
-import {createHttpException} from "./create-http-exception";
 
 @Injectable()
 export class TokenRefreshExtractorMiddleware implements NestMiddleware {
@@ -18,7 +23,9 @@ export class TokenRefreshExtractorMiddleware implements NestMiddleware {
 		if (!token) {
 			res
 				.status(HttpStatus.UNAUTHORIZED)
-				.send(createHttpException({message: "Unauthorized", statusCode: 401}));
+				.send(
+					HttpException.createBody({message: "Unauthorized", statusCode: 401}),
+				);
 			return;
 		}
 
@@ -30,11 +37,12 @@ export class TokenRefreshExtractorMiddleware implements NestMiddleware {
 				},
 			);
 			if (Date.now() > verifiedToken.exp * 1000) {
-				res
-					.status(HttpStatus.UNAUTHORIZED)
-					.send(
-						createHttpException({message: "Unauthorized", statusCode: 401}),
-					);
+				res.status(HttpStatus.UNAUTHORIZED).send(
+					HttpException.createBody({
+						message: "Unauthorized",
+						statusCode: 401,
+					}),
+				);
 				return;
 			}
 
@@ -46,7 +54,9 @@ export class TokenRefreshExtractorMiddleware implements NestMiddleware {
 			this.logger.error(e);
 			res
 				.status(HttpStatus.UNAUTHORIZED)
-				.send(createHttpException({message: "Unauthorized", statusCode: 401}));
+				.send(
+					HttpException.createBody({message: "Unauthorized", statusCode: 401}),
+				);
 			return;
 		}
 	}

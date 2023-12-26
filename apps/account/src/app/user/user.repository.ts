@@ -1,7 +1,12 @@
 import {Injectable} from "@nestjs/common";
 import {User, UserModel} from "./schemas/user.schema";
 import {InjectModel} from "@nestjs/mongoose";
-import {UserExistException, UserEntity, IUser} from "@slice";
+import {
+	UserExistException,
+	UserEntity,
+	IUser,
+	UserNotFoundException,
+} from "@slice";
 
 @Injectable()
 export class UserRepository {
@@ -19,27 +24,35 @@ export class UserRepository {
 		return this.userModel.findByIdAndUpdate(id, {$set: user});
 	}
 
-	async findUserByEmail(email: string) {
-		return this.userModel.findOne({email});
+	async findUserByEmail(email: string, throwError: boolean = false) {
+		const searchedUser = await this.userModel.findOne({email});
+		return this.processingResult(searchedUser, throwError);
 	}
 
 	/**
 	 * метод специально для проверки данных из jwt токена(для авторизации)
 	 */
-	async findUserByIdAndEmail(userId: string, email: string) {
-		return this.userModel.findOne({_id: userId, email});
+	async findUserByIdAndEmail(
+		userId: string,
+		email: string,
+		throwError: boolean = false,
+	) {
+		const searchedUser = await this.userModel.findOne({_id: userId, email});
+		return this.processingResult(searchedUser, throwError);
 	}
 
-	async findUserById(id: string) {
-		return this.userModel.findById(id);
+	async findUserById(id: string, throwError: boolean = false) {
+		const searchedUser = await this.userModel.findById(id);
+		return this.processingResult(searchedUser, throwError);
 	}
 
-	async findUser(user: Omit<IUser, "id">) {
-		return this.userModel.findOne(user);
+	async findUser(user: Omit<IUser, "id">, throwError: boolean = false) {
+		const searchedUser = await this.userModel.findOne(user);
+		return this.processingResult(searchedUser, throwError);
 	}
 
 	async deleteUser(email: string) {
-		this.userModel.deleteOne({email});
+		await this.userModel.deleteOne({email});
 	}
 
 	async exist(user: Partial<IUser>, throwError: boolean = false) {
@@ -47,5 +60,10 @@ export class UserRepository {
 		if (throwError && userExist) throw new UserExistException();
 		if (userExist) return true;
 		else return false;
+	}
+
+	private processingResult(user: User, throwError: boolean) {
+		if (!user && throwError) throw new UserNotFoundException();
+		return user;
 	}
 }

@@ -1,13 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {currentUserReducer} from "./user";
-import {checkTokenRefreshMiddleware} from "./middleware/checkTokenRefresh";
+// import {checkTokenRefreshMiddleware} from "./middleware/checkTokenRefresh";
 
 export const store = configureStore({
 	reducer: {
 		currentUser: currentUserReducer,
 	},
-	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware().concat(checkTokenRefreshMiddleware),
+	// middleware: getDefaultMiddleware =>
+	// 	getDefaultMiddleware().concat(checkTokenRefreshMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

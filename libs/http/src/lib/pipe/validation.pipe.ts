@@ -1,24 +1,14 @@
-import {
-	PipeTransform,
-	Injectable,
-	ArgumentMetadata,
-	// ValidationPipeOptions,
-	HttpStatus,
-	HttpException,
-} from "@nestjs/common";
+import {PipeTransform, Injectable, ArgumentMetadata} from "@nestjs/common";
 import {plainToInstance} from "class-transformer";
 import {validate} from "class-validator";
 import {ValidationException} from "./exceptions";
 
 @Injectable()
 export class ValidationPipe implements PipeTransform {
-	async transform(value: object, meatadata: ArgumentMetadata) {
-		if (this.isEmpty(value))
-			throw new HttpException(
-				`Validation failed: no payload provided`,
-				HttpStatus.BAD_REQUEST,
-			);
-		const obj = plainToInstance(meatadata.metatype!, value);
+	async transform(value: object, metadata: ArgumentMetadata) {
+		if (!value || metadata.type === "custom" || this.isEmpty(value))
+			return value;
+		const obj = plainToInstance(metadata.metatype!, value);
 		const errors = await validate(obj, {
 			transform: true,
 			transformOptions: {
