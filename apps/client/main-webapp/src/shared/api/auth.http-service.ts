@@ -3,7 +3,7 @@ import {ApiUserContracts} from "@app-tasks/http";
 import {METHODS} from "./types";
 import {pathTokenRefresh} from "./constants";
 
-export class UserHttpService extends BaseHttpService {
+export class AuthHttpService extends BaseHttpService {
 	basePath = "/user";
 
 	register(body: ApiUserContracts.Auth.register.RequestDto) {

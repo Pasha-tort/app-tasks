@@ -1,9 +1,7 @@
-export class BaseException extends Error {
-	text: string;
-	messageError: string;
-	constructor(text: string, messageError: string) {
+export class RenderException extends Error {
+	message: string;
+	constructor(message: string) {
 		super();
-		this.text = text;
-		this.messageError = messageError;
+		this.message = message;
 	}
 }

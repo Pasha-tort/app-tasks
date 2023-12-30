@@ -4,27 +4,30 @@ import cn from "classnames";
 
 type TextProps = {
 	size?: "small" | "default" | "big" | "very-big";
+	weight?: "regular" | "semiBold";
+	inline?: boolean;
 } & PropsWithChildren &
 	HTMLAttributes<HTMLDivElement>;
 
-export const Text = ({children, size, className, ...props}: TextProps) => {
-	let cls: string;
-	switch (size) {
-		case "big":
-			cls = style["text_big"];
-			break;
-		case "small":
-			cls = style["text_small"];
-			break;
-		case "very-big":
-			cls = style["text_very-big"];
-			break;
-		default:
-			cls = style["text_default"];
-			break;
-	}
+export const Text = ({
+	children,
+	size,
+	weight,
+	className,
+	inline,
+	...props
+}: TextProps) => {
+	const cls = cn(
+		style["text"],
+		size ? style[`text_${size}`] : style["text_default"],
+		weight ? style[`text_${weight}`] : style["text_regular"],
+		className,
+	);
 	return (
-		<div className={cn(cls, className)} {...props}>
+		<div
+			className={cls}
+			{...props}
+			style={{display: inline ? "inline" : "block"}}>
 			{children}
 		</div>
 	);

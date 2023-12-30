@@ -1,21 +1,25 @@
 import {ApiUserContracts} from "@app-tasks/http";
 import {ActionReducerMapBuilder, createAsyncThunk} from "@reduxjs/toolkit";
-import {clientHttp} from "src/shared/api";
+import {clientHttp, RenderException} from "src/shared/api";
 import {StateCurrentUser} from "../state";
 
 export const registerAction = createAsyncThunk(
 	"register",
-	async (body: ApiUserContracts.Auth.register.RequestDto) => {
-		const data = await clientHttp.user.register(body);
-		return data;
+	async (body: ApiUserContracts.Auth.register.RequestDto, thunkApi) => {
+		return clientHttp.auth.register(body).catch(e => {
+			if (e instanceof RenderException) {
+				return thunkApi.rejectWithValue(e.message);
+			}
+			throw e;
+		});
 	},
 );
 export const registerReducer = (
 	builder: ActionReducerMapBuilder<StateCurrentUser>,
 ) => {
 	builder.addCase(registerAction.pending, state => {
-		state.error = null;
 		state.status = "loading";
+		state.error = null;
 	});
 	builder.addCase(registerAction.fulfilled, (state, {payload}) => {
 		return {
@@ -24,7 +28,8 @@ export const registerReducer = (
 			...payload,
 		};
 	});
-	builder.addCase(registerAction.rejected, (state, payload) => {
-		state.error = payload.error.message;
+	builder.addCase(registerAction.rejected, (state, {payload}) => {
+		state.status = "failed";
+		state.error = payload as string;
 	});
 };

@@ -1,6 +1,8 @@
 @import "src/shared/scss/font-size.scss";
+@import "src/shared/scss/variable.scss";
 
 .text {
+  color: $colorText;
   &_small {
     font-size: $fs12;
   }
@@ -12,5 +14,11 @@
   }
   &_very-big {
     font-size: $fs24;
+  }
+  &_regular {
+    font-weight: $fw400;
+  }
+  &_semi-bold {
+    font-weight: $fw700;
   }
 }

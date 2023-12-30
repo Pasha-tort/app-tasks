@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IUserBaseData} from "@app-tasks/account/src/slice";
+// import {IUserBaseData} from "@app-tasks/account/src/slice";
 import {initialState} from "./state";
 import {
 	checkTokenReducer,
@@ -21,7 +21,7 @@ const currentUserSlice = createSlice({
 		checkTokenReducer(builder);
 	},
 	selectors: {
-		selectCurrentUser(state: IUserBaseData) {
+		selectCurrentUser(state) {
 			return state;
 		},
 	},

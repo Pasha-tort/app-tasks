@@ -5,7 +5,7 @@ import {
 	baseMessageError,
 	pathTokenRefresh,
 } from "./constants";
-import {BaseException} from "./exceptions";
+import {RenderException} from "./exceptions";
 import {METHODS} from "./types";
 
 // export const sendRequest = async <ResDto = object>({
@@ -110,9 +110,7 @@ export class BaseHttpService {
 				Number(cookieTokenAccessExp) - Date.now() > 5000)
 		) {
 			const response = await this.refreshToken();
-			if (response.status >= 400) {
-				await this.errorHandler(response);
-			}
+			if (response.status >= 400) await this.errorHandler(response);
 		}
 
 		const headers: HeadersInit = {
@@ -127,38 +125,14 @@ export class BaseHttpService {
 			headers,
 			credentials: "include",
 		};
-		return await this.request<ResDto>(
-			url,
-			requestInit,
-			// path === pathTokenRefresh ? false : true, // если это и есть tokenRefresh, то при ошибке точно не нужно делать второй запрос
-		);
+		return await this.request<ResDto>(url, requestInit);
 	}
 
 	private async request<ResDto = object>(
 		url: string,
 		requestInit?: RequestInit,
-		// refresh: boolean = true,
 	) {
 		const response = await fetch(url, requestInit);
-
-		// возможно умер access токен, надо обновить его
-		// да в этом классе во многих местах вызывается запрос refresh, но это нужно для точного покрытия случая когда accessToken протух, а refreshToken еще есть
-		// потому что после этой проверки есть некое время
-		// if (response.status === 401 && refresh) {
-		// 	await this.refreshToken();
-		// 	const headers = {
-		// 		...requestInit?.headers,
-		// 		Authorization: this.getHeaderAuthorization(),
-		// 	};
-		// 	const init: RequestInit = {...requestInit, headers};
-		// 	const newResponse = await fetch(url, init);
-		// 	if (newResponse.status >= 400) {
-		// 		await this.errorHandler(newResponse);
-		// 	} else {
-		// 		return newResponse.json() as Promise<ResDto>;
-		// 	}
-		// }
-		// return response.json() as Promise<ResDto>;
 		if (response.status >= 400) {
 			await this.errorHandler(response);
 		}
@@ -181,15 +155,9 @@ export class BaseHttpService {
 	private async errorHandler(response: Response) {
 		const body = await response.json();
 		if (response.status === 401)
-			throw new BaseException(
-				"Error authentication",
-				body?.message || baseMessageError,
-			);
+			throw new RenderException(body?.message || baseMessageError);
 		if (response.status === 400)
-			throw new BaseException(
-				"Error custom",
-				body?.message || baseMessageError,
-			);
-		throw new BaseException("Error server", baseMessageError);
+			throw new RenderException(body?.message || baseMessageError);
+		throw new RenderException(baseMessageError);
 	}
 }

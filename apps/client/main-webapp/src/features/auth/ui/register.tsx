@@ -42,14 +42,14 @@ export const RegisterFeature = () => {
 					label="Укажите вашу почту"
 					name="email"
 					rules={[{required: true, message: "Укажите вашу почту"}]}>
-					<Input />
+					<Input autoComplete="username" />
 				</Form.Item>
 
 				<Form.Item<ApiUserContracts.Auth.register.RequestDto["password"]>
 					label="Укажите ваш пароль"
 					name="password"
 					rules={[{required: true, message: "Укажите ваш пароль"}]}>
-					<Input.Password />
+					<Input.Password autoComplete="new-password" />
 				</Form.Item>
 
 				<Form.Item<ApiUserContracts.Auth.register.RequestDto["name"]>
