@@ -85,7 +85,7 @@ export class AuthService {
 	async refreshTokens({
 		userId,
 		refreshToken,
-	}: AccountContracts.Auth.refreshToken.RequestDto) {
+	}: AccountContracts.Auth.refreshToken.RequestDto): Promise<AccountContracts.Auth.refreshToken.ResponseDto> {
 		const user = await this.userRepository.findUserById(userId, true);
 		const userEntity = new UserEntity(user);
 		if (!user || !user.tokenRefreshHash) throw new WrongTokenRefreshException();
@@ -100,7 +100,12 @@ export class AuthService {
 		);
 		await this.userRepository.updateUserById(user.id, {tokenRefreshHash});
 
-		return tokens;
+		return {
+			...tokens,
+			name: userEntity.name,
+			email: userEntity.email,
+			id: userEntity.id,
+		};
 	}
 
 	async getTokens(user: IUser) {

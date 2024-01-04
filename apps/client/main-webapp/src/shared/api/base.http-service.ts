@@ -3,7 +3,7 @@ import {
 	KEY_TOKEN_ACCESS,
 	KEY_TOKEN_ACCESS_EXP,
 	baseMessageError,
-	pathTokenRefresh,
+	pathsDontTokenVerification,
 } from "./constants";
 import {RenderException} from "./exceptions";
 import {METHODS} from "./types";
@@ -104,10 +104,10 @@ export class BaseHttpService {
 		// или до конца истечения времени жизни accessToken осталось менее 5 секунд, то обнволяем токены.
 		// Такая логика нужна что бы у нас точно был запас во времени между проверкой сущуствования accessToken и вызова
 		if (
-			path !== pathTokenRefresh &&
+			!pathsDontTokenVerification.includes(path) &&
 			(!cookieTokenAccessExp ||
 				!cookieTokenAccess ||
-				Number(cookieTokenAccessExp) - Date.now() > 5000)
+				Number(cookieTokenAccessExp) - Date.now() < 5000)
 		) {
 			const response = await this.refreshToken();
 			if (response.status >= 400) await this.errorHandler(response);

@@ -4,73 +4,70 @@ import {
 	ButtonSubmit,
 	FormWrapper,
 	registerAction,
-	logoutAction,
-	tokenRefreshAction,
 	useAppDispatch,
-	Text,
 } from "src/shared";
 import {useCallback} from "react";
 
 export const RegisterFeature = () => {
 	const dispatch = useAppDispatch();
 	const submit = useCallback(
-		(data: ApiUserContracts.Auth.register.RequestDto) => {
-			dispatch(registerAction(data));
-		},
+		(data: ApiUserContracts.Auth.register.RequestDto) =>
+			dispatch(registerAction(data)),
 		[dispatch],
 	);
 
-	const submitRefresh = useCallback(() => {
-		dispatch(tokenRefreshAction());
-	}, [dispatch]);
-
-	const submitLogout = useCallback(async () => {
-		const res = await dispatch(logoutAction());
-		// if (res.meta.requestStatus === "rejected")
-		//TODO рисуем ошибку
-		console.log(res);
-	}, [dispatch]);
-
 	return (
-		<>
-			<FormWrapper<ApiUserContracts.Auth.register.RequestDto>
-				submit={submit}
-				name="register"
-				layout="vertical"
-				style={{maxWidth: 400, width: "90vw"}}>
-				<Form.Item<ApiUserContracts.Auth.register.RequestDto["email"]>
-					label="Укажите вашу почту"
-					name="email"
-					rules={[{required: true, message: "Укажите вашу почту"}]}>
-					<Input autoComplete="username" />
-				</Form.Item>
+		<FormWrapper<ApiUserContracts.Auth.register.RequestDto>
+			submit={submit}
+			name="register"
+			layout="vertical"
+			style={{maxWidth: 400, width: "90vw"}}>
+			<Form.Item<ApiUserContracts.Auth.register.RequestDto["email"]>
+				label="Укажите вашу почту"
+				name="email"
+				rules={[{required: true, message: "Укажите вашу почту"}]}>
+				<Input autoComplete="username" />
+			</Form.Item>
 
-				<Form.Item<ApiUserContracts.Auth.register.RequestDto["password"]>
-					label="Укажите ваш пароль"
-					name="password"
-					rules={[{required: true, message: "Укажите ваш пароль"}]}>
-					<Input.Password autoComplete="new-password" />
-				</Form.Item>
+			<Form.Item<ApiUserContracts.Auth.register.RequestDto["password"]>
+				label="Укажите ваш пароль"
+				name="password"
+				rules={[{required: true, message: "Укажите ваш пароль"}]}>
+				<Input.Password autoComplete="new-password" />
+			</Form.Item>
 
-				<Form.Item<ApiUserContracts.Auth.register.RequestDto["name"]>
-					label="Укажите ваше имя"
-					name="name"
-					rules={[{required: true, message: "Укажите ваш пароль"}]}
-					extra={
-						<Text>
-							Имя по которому остальные пользователи смогут к вам обращаться
-						</Text>
-					}>
-					<Input />
-				</Form.Item>
-				<ButtonSubmit />
-			</FormWrapper>
-			<FormWrapper submit={submitRefresh} name="refresh">
-				<ButtonSubmit text="refresh" />
-			</FormWrapper>
-			<FormWrapper submit={submitLogout} name="logout">
-				<ButtonSubmit text="logout" />
-			</FormWrapper>
-		</>
+			<Form.Item
+				name="confirm"
+				label="Подтвердите ваш пароль"
+				dependencies={["password"]}
+				hasFeedback
+				rules={[
+					{
+						required: true,
+						message: "Подтвердите ваш пароль",
+					},
+					({getFieldValue}) => ({
+						validator(_, value) {
+							if (!value || getFieldValue("password") === value) {
+								return Promise.resolve();
+							}
+							return Promise.reject(new Error("Пароли должны совпадать!"));
+						},
+					}),
+				]}>
+				<Input.Password />
+			</Form.Item>
+
+			<Form.Item<ApiUserContracts.Auth.register.RequestDto["name"]>
+				label="Укажите ваше имя"
+				name="name"
+				rules={[{required: true, message: "Укажите ваш пароль"}]}
+				extra={
+					"Имя по которому остальные пользователи смогут к вам обращаться"
+				}>
+				<Input />
+			</Form.Item>
+			<ButtonSubmit />
+		</FormWrapper>
 	);
 };

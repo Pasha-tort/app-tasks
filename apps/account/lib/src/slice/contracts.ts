@@ -89,7 +89,11 @@ export namespace AccountContracts {
 				refreshToken: string;
 			}
 
-			export class ResponseDto extends Tokens {}
+			export class ResponseDto extends Tokens implements IUserBaseData {
+				name: string;
+				email: string;
+				id: string;
+			}
 		}
 	}
 }

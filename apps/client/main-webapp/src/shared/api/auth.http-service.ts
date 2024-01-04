@@ -1,7 +1,6 @@
 import {BaseHttpService} from "./base.http-service";
 import {ApiUserContracts} from "@app-tasks/http";
 import {METHODS} from "./types";
-import {pathTokenRefresh} from "./constants";
 
 export class AuthHttpService extends BaseHttpService {
 	basePath = "/user";
@@ -30,8 +29,8 @@ export class AuthHttpService extends BaseHttpService {
 	}
 
 	tokenRefresh() {
-		return this.sendRequest({
-			path: pathTokenRefresh,
+		return this.sendRequest<ApiUserContracts.Auth.tokenRefresh.ResponseDto>({
+			path: "token-refresh",
 			method: METHODS.POST,
 		});
 	}

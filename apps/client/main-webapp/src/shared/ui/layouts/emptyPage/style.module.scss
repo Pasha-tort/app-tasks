@@ -1,6 +1,8 @@
 @import "src/shared/scss/variable.scss";
 
 .empty-page {
-  height: 100vh;
+  min-height: 100vh;
   background: $full-page-gradient;
+  padding-top: 20vh;
+  padding-bottom: 20vh;
 }

@@ -1,12 +1,21 @@
 import {Form, Input} from "antd";
 import {ApiUserContracts} from "@app-tasks/http";
-import {ButtonSubmit, FormWrapper} from "src/shared";
+import {
+	ButtonSubmit,
+	FormWrapper,
+	loginAction,
+	useAppDispatch,
+} from "src/shared";
 import {useCallback} from "react";
 
 export const LoginFeature = () => {
-	const submit = useCallback((data: ApiUserContracts.Auth.login.RequestDto) => {
-		console.log(data);
-	}, []);
+	const dispatch = useAppDispatch();
+	const submit = useCallback(
+		(data: ApiUserContracts.Auth.login.RequestDto) => {
+			dispatch(loginAction(data));
+		},
+		[dispatch],
+	);
 	return (
 		<FormWrapper<ApiUserContracts.Auth.login.RequestDto>
 			submit={submit}

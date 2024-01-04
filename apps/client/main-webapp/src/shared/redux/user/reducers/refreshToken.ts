@@ -18,8 +18,12 @@ export const tokenRefreshReducer = (
 		state.status = "loading";
 		state.error = null;
 	});
-	builder.addCase(tokenRefreshAction.fulfilled, state => {
-		state.status = "succeeded";
+	builder.addCase(tokenRefreshAction.fulfilled, (state, {payload}) => {
+		return {
+			...state,
+			status: "succeeded",
+			...payload,
+		};
 	});
 	builder.addCase(tokenRefreshAction.rejected, (state, {payload}) => {
 		state.status = "failed";

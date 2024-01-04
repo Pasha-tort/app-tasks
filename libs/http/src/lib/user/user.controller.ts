@@ -1,4 +1,12 @@
-import {Controller, Post, Body, Res, HttpStatus, Get} from "@nestjs/common";
+import {
+	Controller,
+	Post,
+	Body,
+	Res,
+	HttpStatus,
+	Get,
+	HttpException,
+} from "@nestjs/common";
 import {Response} from "express";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
@@ -19,19 +27,21 @@ export class UserController {
 		private readonly jwtService: JwtService,
 	) {}
 
-	@Post("register")
+	@Post(ApiUserContracts.Auth.register.path)
 	@Public()
 	async register(
 		@Body() body: ApiUserContracts.Auth.register.RequestDto,
 		@Res() res: Response<ApiUserContracts.Auth.register.ResponseDto>,
 	): Promise<Response<ApiUserContracts.Auth.register.ResponseDto>> {
+		if (body.password !== body.confirm)
+			throw new HttpException("Password mismatch", 401);
 		const {tokenRefresh, tokenAccess, ...response} =
 			await this.userService.register(body);
 		this.genCookiesForTokens(res, tokenRefresh, tokenAccess);
 		return res.status(HttpStatus.OK).json(response);
 	}
 
-	@Post("login")
+	@Post(ApiUserContracts.Auth.login.path)
 	@Public()
 	@LocalAuthGuard()
 	async login(
@@ -47,7 +57,7 @@ export class UserController {
 		return res.status(HttpStatus.OK).json(response);
 	}
 
-	@Post("logout")
+	@Post(ApiUserContracts.Auth.logout.path)
 	async logout(@UserExtractor() user: IUserBaseData, @Res() res: Response) {
 		await this.userService.logout({userId: user.id});
 		createCookies(res, [
@@ -65,22 +75,23 @@ export class UserController {
 		return res.status(HttpStatus.OK).json({});
 	}
 
-	@Post("token-refresh")
+	@Post(ApiUserContracts.Auth.tokenRefresh.path)
 	@RefreshTokenEntrypoint()
-	async refreshToken(
+	async tokenRefresh(
 		@UserExtractor() user: IUserBaseData,
 		@RefreshTokenExtractor() token: string,
 		@Res() res: Response,
-	): Promise<Response | void> {
-		const {tokenAccess, tokenRefresh} = await this.userService.refreshToken({
-			userId: user.id,
-			refreshToken: token,
-		});
+	): Promise<Response<ApiUserContracts.Auth.tokenRefresh.ResponseDto> | void> {
+		const {tokenAccess, tokenRefresh, ...response} =
+			await this.userService.refreshToken({
+				userId: user.id,
+				refreshToken: token,
+			});
 		this.genCookiesForTokens(res, tokenRefresh, tokenAccess);
-		return res.status(HttpStatus.OK).json({});
+		return res.status(HttpStatus.OK).json(response);
 	}
 
-	@Get("check-token")
+	@Get(ApiUserContracts.Auth.checkToken.path)
 	/**
 	 * !! Это запрос не к ресурсу, этот запрос нужен для того что бы фронт мог проверить жив ли tokenAccess
 	 * Если jwt guard пропустит запрос, то accessToken можно считать валидным и запрос успешно завершить,

@@ -8,12 +8,18 @@
   width: 95vw;
 }
 
-.auth-loading-wrapper {
+.auth-loading-text {
   padding: 0 10px;
   max-width: 600px;
 }
 
-.auth-failed-wrapper {
-  padding: 0 10px;
-  max-width: 600px;
+.auth-failed {
+  &-text {
+    padding: 0 10px;
+    max-width: 600px;
+  }
+  &-button {
+    display: flex;
+    justify-content: center;
+  }
 }

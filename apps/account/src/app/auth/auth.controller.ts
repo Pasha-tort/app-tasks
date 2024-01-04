@@ -11,14 +11,18 @@ export class AuthController {
 	@RMQValidate()
 	@RMQTransform()
 	@AccountRmqService.registerRpc()
-	async register(dto: AccountContracts.Auth.register.RequestDto) {
+	async register(
+		dto: AccountContracts.Auth.register.RequestDto,
+	): Promise<AccountContracts.Auth.register.ResponseDto> {
 		return this.authService.register(dto);
 	}
 
 	@RMQValidate()
 	@RMQTransform()
 	@AccountRmqService.loginRpc()
-	async login(dto: AccountContracts.Auth.login.RequestDto) {
+	async login(
+		dto: AccountContracts.Auth.login.RequestDto,
+	): Promise<AccountContracts.Auth.login.ResponseDto> {
 		return this.authService.login(dto);
 	}
 
@@ -32,7 +36,9 @@ export class AuthController {
 	@RMQValidate()
 	@RMQTransform()
 	@AccountRmqService.refreshTokenRpc()
-	async refreshToken(dto: AccountContracts.Auth.refreshToken.RequestDto) {
+	async refreshToken(
+		dto: AccountContracts.Auth.refreshToken.RequestDto,
+	): Promise<AccountContracts.Auth.refreshToken.ResponseDto> {
 		return this.authService.refreshTokens(dto);
 	}
 }

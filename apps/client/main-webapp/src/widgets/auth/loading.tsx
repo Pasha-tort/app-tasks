@@ -5,8 +5,8 @@ import style from "./style.module.scss";
 export const AuthLoadingWidget = () => (
 	<LayoutEmptyPage>
 		<CenterPageContent>
-			<Text size="big" className={style["auth-loading-wrapper"]}>
-				Идет процесс аутентификации, пожалуйста подождите
+			<Text size="big" className={style["auth-loading-text"]}>
+				Проверка аутентификации пользователя, пожалуйста подождите...
 			</Text>
 		</CenterPageContent>
 	</LayoutEmptyPage>

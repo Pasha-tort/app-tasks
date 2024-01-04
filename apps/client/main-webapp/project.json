@@ -22,8 +22,9 @@
         "styles": ["apps/client/main-webapp/src/app/styles/index.scss"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/client/main-webapp/webpack.config.js",
-        "generatePackageJson": true
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "webpackConfig": "apps/client/main-webapp/webpack.config.js"
       },
       "configurations": {
         "development": {
@@ -53,6 +54,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "main-webapp:build",
+        "runBuildTargetDependencies": true,
         "hmr": true,
         "proxyConfig": "apps/client/main-webapp/proxy.conf.json"
       },
