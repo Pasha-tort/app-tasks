@@ -14,7 +14,9 @@ import {AuthModule} from "./auth/auth.module";
 	imports: [
 		ConfigModule.forRoot(
 			getConfigModule({
-				pathsEnv: [path.join(path.resolve(), "apps", "account", "src", ".env")],
+				pathsEnv: [
+					path.join(path.resolve(), "apps", "account", "app", "src", ".env"),
+				],
 			}),
 		),
 		MongooseModule.forRootAsync(getMongoConfig()),

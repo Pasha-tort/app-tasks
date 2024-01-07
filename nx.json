@@ -15,8 +15,9 @@
 			"dependsOn": ["^build"]
 		},
 		"serve": {
-			"cache": true,
-			"dependsOn": ["^build"]
+			"options": {
+				"runBuildTargetDependencies": true
+			}
 		},
 		"lint": {
 			"cache": true,

@@ -50,6 +50,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "main-webapp:build",
+        "runBuildTargetDependencies": false,
         "hmr": true
       },
       "configurations": {

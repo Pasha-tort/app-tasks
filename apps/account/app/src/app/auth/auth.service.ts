@@ -109,7 +109,6 @@ export class AuthService {
 	}
 
 	async getTokens(user: IUser) {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const {passwordHash, tokenRefreshHash, ...dataUser} = user; // избавляемся от двух полей которые не нужны в данных которые будут зашиты в токены
 
 		const [tokenAccess, tokenRefresh] = await Promise.all([

@@ -11,7 +11,9 @@ import {JwtAuthGuardProvider, UserModule} from "@app-tasks/http";
 	imports: [
 		ConfigModule.forRoot(
 			getConfigModule({
-				pathsEnv: [path.join(path.resolve(), "apps", "api", "src", ".env")],
+				pathsEnv: [
+					path.join(path.resolve(), "apps", "api", "app", "src", ".env"),
+				],
 			}),
 		),
 		RMQModule.forRootAsync(getRmqConfig()),
