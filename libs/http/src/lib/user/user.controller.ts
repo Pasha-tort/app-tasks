@@ -10,10 +10,14 @@ import {
 import {Response} from "express";
 import {LocalAuthGuard} from "../guards";
 import {Public, UserExtractor} from "../decorators";
-import {AccountContracts, IJwtPayload, IUserBaseData} from "@app-tasks/account";
+import {
+	AccountContracts,
+	IJwtPayload,
+	IUserBaseData,
+} from "@app-tasks/account.slice";
 import {UserService} from "./user.service";
 import {RefreshTokenExtractor} from "../decorators/refresh-token-extractor.decorator";
-import {createCookies} from "../helpers/create-cookie";
+import {createCookies} from "../utils/create-cookie";
 import {ConfigService} from "@nestjs/config";
 import {RefreshTokenEntrypoint} from "../decorators/is-refresh-token.decorator";
 import {ApiUserContracts} from "../contracts/user.contracts";
@@ -50,7 +54,7 @@ export class UserController {
 			tokenRefresh,
 			tokenAccess,
 			...response
-		}: AccountContracts.Auth.login.ResponseDto, // здесь такой тип, потому что localStrategy в request.user кладет именно эти данные
+		}: AccountContracts.Auth.login.ResponseDto, // !!здесь такой тип, потому что localStrategy в поле request.user кладет именно эти данные
 		@Res() res: Response<ApiUserContracts.Auth.register.ResponseDto>,
 	): Promise<Response<ApiUserContracts.Auth.register.ResponseDto>> {
 		this.genCookiesForTokens(res, tokenRefresh, tokenAccess);

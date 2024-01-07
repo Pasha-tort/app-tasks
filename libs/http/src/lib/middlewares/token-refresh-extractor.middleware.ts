@@ -1,4 +1,4 @@
-import {IJwtPayload} from "@app-tasks/account";
+import {IJwtPayload} from "@app-tasks/account.slice";
 import {
 	HttpException,
 	HttpStatus,

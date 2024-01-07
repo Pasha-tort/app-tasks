@@ -3,10 +3,10 @@ import {User, UserModel} from "./schemas/user.schema";
 import {InjectModel} from "@nestjs/mongoose";
 import {
 	UserExistException,
-	UserEntity,
 	IUser,
 	UserNotFoundException,
-} from "@slice";
+} from "@app-tasks/account.slice";
+import {UserEntity} from "./user.entity";
 
 @Injectable()
 export class UserRepository {

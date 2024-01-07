@@ -15,7 +15,6 @@
 				"main": "apps/account/src/main.ts",
 				"tsConfig": "apps/account/tsconfig.app.json",
 				"assets": ["apps/account/src/assets"],
-				"isolatedConfig": true,
 				"webpackConfig": "apps/account/webpack.config.js"
 			},
 			"configurations": {
@@ -28,7 +27,6 @@
 			"defaultConfiguration": "development",
 			"options": {
 				"buildTarget": "account:build",
-				"runBuildTargetDependencies": true,
 				"inspect": "inspect",
 				"host": "localhost",
 				"port": 9230

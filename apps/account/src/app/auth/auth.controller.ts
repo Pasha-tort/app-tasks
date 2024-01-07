@@ -1,6 +1,6 @@
 import {Controller} from "@nestjs/common";
-import {AccountContracts} from "@slice";
-import {AccountRmqService} from "@transport";
+import {AccountContracts} from "@app-tasks/account.slice";
+import {AccountRmqService} from "@app-tasks/account.transport";
 import {AuthService} from "./auth.service";
 import {RMQTransform, RMQValidate} from "nestjs-rmq";
 

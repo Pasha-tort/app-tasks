@@ -2,13 +2,13 @@ import {Injectable} from "@nestjs/common";
 import {
 	AccountContracts,
 	IUser,
-	UserEntity,
 	WrongLoginOrPassException,
 	WrongTokenRefreshException,
-} from "@slice";
+} from "@app-tasks/account.slice";
 import {ConfigService} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
-import {UserRepository} from "@src/app/user/user.repository";
+import {UserRepository} from "@account/app/user/user.repository";
+import {UserEntity} from "@account/app/user/user.entity";
 
 @Injectable()
 export class AuthService {

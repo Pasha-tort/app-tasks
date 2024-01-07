@@ -13,7 +13,21 @@
 		"lib": ["es2020", "dom"],
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
-		"baseUrl": "."
+		"baseUrl": ".",
+		"strictPropertyInitialization": false,
+		"paths": {
+			"@account/*": ["apps/account/src/*"],
+			"@api/*": ["apps/api/src/*"],
+			"@app-tasks/account": ["apps/account/lib/src/index.ts"],
+			// "@app-tasks/account.slice": ["apps/account/libs/slice/src/index.ts"],
+			// "@app-tasks/account.transport": [
+				// "apps/account/libs/transport/src/index.ts"
+			// ],
+			"@app-tasks/api.slice": ["apps/api/lib/src/index.ts"],
+			"@app-tasks/config": ["libs/config/src/index.ts"],
+			"@app-tasks/http": ["libs/http/src/index.ts"],
+			"@main-webapp/*": ["apps/main-webapp/src/*"]
+		}
 	},
 	"exclude": ["node_modules", "tmp"],
 	"include": ["apps/**/*", "libs/**/*"]

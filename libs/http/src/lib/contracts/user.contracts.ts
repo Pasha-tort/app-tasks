@@ -1,4 +1,4 @@
-import {AccountContracts, IUserBaseData} from "@app-tasks/account";
+import {AccountContracts, IUserBaseData} from "@app-tasks/account.slice";
 import {Exclude, Expose} from "class-transformer";
 import {IsString} from "class-validator";
 

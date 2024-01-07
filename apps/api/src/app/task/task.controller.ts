@@ -1,7 +1,7 @@
 import {Body, Controller, Post} from "@nestjs/common";
 import {UserExtractor} from "@app-tasks/http";
-import {IUserBaseData} from "@app-tasks/account";
-import {ApiTaskContracts} from "@slice";
+import {IUserBaseData} from "@app-tasks/account.slice";
+import {ApiTaskContracts} from "@app-tasks/api.slice";
 
 @Controller("task")
 export class TaskController {
