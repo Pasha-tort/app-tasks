@@ -1,5 +1,4 @@
-import {IUserBaseData, AccountContracts} from "@app-tasks/account.slice";
-console.log(AccountContracts.Auth.login.topic);
+import {IUserBaseData} from "@app-tasks/account.slice/src/user.interface";
 export type StateCurrentUser = IUserBaseData & {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: string | null;

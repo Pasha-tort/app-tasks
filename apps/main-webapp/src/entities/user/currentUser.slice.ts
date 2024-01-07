@@ -1,5 +1,4 @@
 import {createSlice} from "@reduxjs/toolkit";
-// import {IUserBaseData} from "@app-tasks/account/src/slice";
 import {initialState} from "./state";
 import {
 	checkTokenReducer,

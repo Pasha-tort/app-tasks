@@ -97,7 +97,6 @@
 	},
 	"workspaces": [
 		"apps/**",
-		"apps/**",
 		"libs/**"
 	],
 	"nx": {

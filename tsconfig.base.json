@@ -18,11 +18,10 @@
 		"paths": {
 			"@account/*": ["apps/account/src/*"],
 			"@api/*": ["apps/api/src/*"],
-			"@app-tasks/account": ["apps/account/lib/src/index.ts"],
-			// "@app-tasks/account.slice": ["apps/account/libs/slice/src/index.ts"],
-			// "@app-tasks/account.transport": [
-				// "apps/account/libs/transport/src/index.ts"
-			// ],
+			"@app-tasks/account.slice": ["apps/account/libs/slice/src/index.ts"],
+			"@app-tasks/account.transport": [
+				"apps/account/libs/transport/src/index.ts"
+			],
 			"@app-tasks/api.slice": ["apps/api/lib/src/index.ts"],
 			"@app-tasks/config": ["libs/config/src/index.ts"],
 			"@app-tasks/http": ["libs/http/src/index.ts"],

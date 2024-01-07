@@ -11,6 +11,7 @@
 				"outputPath": "dist/apps/account/libs/slice",
 				"main": "apps/account/libs/slice/src/index.ts",
 				"tsConfig": "apps/account/libs/slice/tsconfig.lib.json",
+				"packageJson": "apps/account/libs/slice/package.json",
 				"assets": ["apps/account/libs/slice/*.md"]
 			}
 		},
