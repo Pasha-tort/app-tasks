@@ -17,7 +17,7 @@ const Providers = () => <Routing />;
 root.render(
 	// <StrictMode>
 	<StyleProvider>
-		<Provider store={store}>{withProviders(Providers)()}</Provider>
+		<Provider store={store}>{<Routing />}</Provider>
 	</StyleProvider>,
 	// </StrictMode>
 );
