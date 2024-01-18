@@ -6,17 +6,18 @@ import {
 	createBrowserRouter,
 	RouterProvider,
 } from "react-router-dom";
-import {ProjectsPage, Root} from "@main-webapp/pages";
+import {ProjectsPage, Root, UserSettingsPage} from "@main-webapp/pages";
 import {LoadPage} from "@main-webapp/widgets";
 import {HomePage} from "@main-webapp/pages";
 import {AuthGuard} from "@main-webapp/app/guards";
+import {rouesConfig} from "@main-webapp/shared";
 
 const PublicPage = lazy(() => import("@main-webapp/pages/public"));
 const Error404 = lazy(() => import("@main-webapp/pages/404"));
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
+		path: Object(rouesConfig.root.path),
 		element: (
 			<Root>
 				<HomePage />
@@ -25,7 +26,11 @@ export const router = createBrowserRouter([
 		errorElement: <Error404 />,
 		children: [
 			{
-				path: "/projects",
+				path: rouesConfig.root.child.userSettings.path,
+				element: <UserSettingsPage />,
+			},
+			{
+				path: rouesConfig.root.child.projects.path,
 				element: <ProjectsPage />,
 			},
 		],

@@ -1,0 +1,58 @@
+@import "@main-webapp/shared/scss/variable.scss";
+
+@mixin focus {
+  &:focus-visible {
+    border: 2px solid $green-main; 
+  }
+}
+.layout {
+  height: 100dvh;
+}
+.sidebar {
+  padding: 1rem 0;
+}
+.sidebar-logo {
+  @include focus;
+}
+.list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.sidebar-header-wrapper {
+  width: 100%;
+  padding-left: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+.avatar {
+  display: block;
+  background-color: $grey-main;
+  transition: background-color 0.15s;
+  &_active {
+    background-color: $green-main;
+    transition: background-color 0.15s;
+  }
+}
+.sidebar-item {
+  padding-left: 2.06rem;
+  &__label {
+    opacity: 0;
+    transition: opacity 0.15s;
+    &:hover, &_active {
+      opacity: 1;
+      transition: opacity 0.15s;
+    }
+  }
+}
+.sidebar-link {
+  color: $grey-main;
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  gap: 4px;
+  &:hover {
+    color: $white-color;
+  }
+  @include focus;
+}
