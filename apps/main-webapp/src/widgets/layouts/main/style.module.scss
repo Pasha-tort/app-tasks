@@ -77,4 +77,6 @@
 }
 .content {
   background-color: $background-main;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
