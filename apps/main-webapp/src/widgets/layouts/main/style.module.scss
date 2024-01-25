@@ -2,7 +2,8 @@
 
 @mixin focus {
   &:focus-visible {
-    border: 2px solid $green-main; 
+    outline: auto; 
+    outline-style: solid;
   }
 }
 .layout {
@@ -12,47 +13,68 @@
   padding: 1rem 0;
 }
 .sidebar-logo {
+  display: inline-block;
+  margin-bottom: 1rem;
   @include focus;
-}
-.list-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-.sidebar-header-wrapper {
-  width: 100%;
-  padding-left: 1.5rem;
-  display: flex;
-  justify-content: flex-start;
-}
-.avatar {
-  display: block;
-  background-color: $grey-main;
-  transition: background-color 0.15s;
-  &_active {
-    background-color: $green-main;
-    transition: background-color 0.15s;
+  div {
+    background-color: $background-main;
+    width: 42px;
+    height: 42px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
-.sidebar-item {
-  padding-left: 2.06rem;
-  &__label {
-    opacity: 0;
-    transition: opacity 0.15s;
-    &:hover, &_active {
-      opacity: 1;
-      transition: opacity 0.15s;
-    }
+.avatar {
+  width: 32px;
+  background-color: $grey-main;
+}
+.avatar-border {
+  border-width: 3px;
+  border-color: transparent;
+  transition: border-color .15s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  &_active {
+    border-color: $green-main;
   }
 }
 .sidebar-link {
   color: $grey-main;
-  display: flex;
-  align-items: center;
   min-height: 2rem;
-  gap: 4px;
   &:hover {
     color: $white-color;
   }
   @include focus;
+}
+.sidebar-item {
+  display: block;
+  overflow: hidden;
+  height: 40px;
+  line-height: 40px;
+  text-overflow: ellipsis;
+  &__label {
+    color: rgba(255, 255, 255, 0.65);
+    display: inline-block;
+    padding-left: 0.5rem;
+    opacity: 0;
+    transition: opacity .15s;
+    transition: color .15s;
+    &_active {
+      opacity: 1;
+    }
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+.menu-item {
+  &_active {
+    background-color: $green-main !important;
+  }
+}
+.content {
+  background-color: $background-main;
 }

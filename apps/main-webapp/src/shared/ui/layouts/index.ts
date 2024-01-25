@@ -1,2 +1,2 @@
-export * from "./emptyPage";
 export * from "./centerPageContent";
+export * from "./emptyPage";

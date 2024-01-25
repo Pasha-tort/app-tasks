@@ -10,7 +10,7 @@ const labelTabs = [
 
 export const AuthWidget = () => {
 	return (
-		<LayoutEmptyPage>
+		<LayoutEmptyPage className={style["auth-page"]}>
 			<Space style={{display: "flex", flexDirection: "column"}}>
 				<Logo />
 				<Tabs

@@ -1,23 +1,21 @@
-import {Suspense, lazy} from "react";
-import {
-	Route,
-	Routes,
-	Navigate,
-	createBrowserRouter,
-	RouterProvider,
-} from "react-router-dom";
-import {ProjectsPage, Root, UserSettingsPage} from "@main-webapp/pages";
-import {LoadPage} from "@main-webapp/widgets";
+import {lazy} from "react";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {Root} from "@main-webapp/pages";
 import {HomePage} from "@main-webapp/pages";
-import {AuthGuard} from "@main-webapp/app/guards";
-import {rouesConfig} from "@main-webapp/shared";
+import {routesConfig} from "@main-webapp/shared";
 
+const AccountPage = lazy(() => import("@main-webapp/pages/account"));
+const ProjectsPage = lazy(() => import("@main-webapp/pages/project"));
+const ChatPage = lazy(() => import("@main-webapp/pages/chat"));
 const PublicPage = lazy(() => import("@main-webapp/pages/public"));
 const Error404 = lazy(() => import("@main-webapp/pages/404"));
 
+/**
+ * !! Хочешь добавить страницу, то сначала идем в routesConfig, и редачим его, добавляем страницу туда, и потом на основе этого конфига создаем страницу тут
+ */
 export const router = createBrowserRouter([
 	{
-		path: Object(rouesConfig.root.path),
+		path: Object(routesConfig.root.path),
 		element: (
 			<Root>
 				<HomePage />
@@ -26,35 +24,25 @@ export const router = createBrowserRouter([
 		errorElement: <Error404 />,
 		children: [
 			{
-				path: rouesConfig.root.child.userSettings.path,
-				element: <UserSettingsPage />,
+				path: routesConfig.root.child.account.path,
+				element: <AccountPage />,
 			},
 			{
-				path: rouesConfig.root.child.projects.path,
+				path: routesConfig.root.child.projects.path,
 				element: <ProjectsPage />,
+			},
+			{
+				path: routesConfig.root.child.chat.path,
+				element: <ChatPage />,
 			},
 		],
 	},
 	{
-		path: "/public",
+		path: routesConfig.root.child.public.path,
 		element: <PublicPage />,
 	},
 ]);
 
 export const Routing = () => {
 	return <RouterProvider router={router} />;
-	// return (
-	// 	<Suspense fallback={<LoadPage />}>
-	// 		<AuthGuard>
-	// 			<Routes>
-	// 				<Route path="/" element={<HomePage />} />
-	// 				<Route path="/projects" element={<ProjectsPage />} />
-	// 			</Routes>
-	// 		</AuthGuard>
-	// 		<Routes>
-	// 			<Route path="/public" element={<PublicPage />} />
-	// 			<Route path="*" element={<Navigate to="/" />} />
-	// 		</Routes>
-	// 	</Suspense>
-	// );
 };

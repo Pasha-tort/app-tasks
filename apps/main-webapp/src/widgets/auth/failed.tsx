@@ -1,4 +1,8 @@
-import {CenterPageContent, LayoutEmptyPage, Text} from "@main-webapp/shared";
+import {
+	LayoutCenterPageContent,
+	LayoutEmptyPage,
+	Text,
+} from "@main-webapp/shared";
 import {useEffect, useState, startTransition} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import style from "./style.module.scss";
@@ -22,7 +26,7 @@ const AuthFailedWidget = () => {
 
 	return (
 		<LayoutEmptyPage>
-			<CenterPageContent>
+			<LayoutCenterPageContent>
 				<Space style={{display: "flex", flexDirection: "column"}}>
 					<div className={style["auth-failed-text"]}>
 						<Text inline size="big">
@@ -41,7 +45,7 @@ const AuthFailedWidget = () => {
 						<Link to="/auth">Перейти</Link>
 					</Button>
 				</Space>
-			</CenterPageContent>
+			</LayoutCenterPageContent>
 		</LayoutEmptyPage>
 	);
 };

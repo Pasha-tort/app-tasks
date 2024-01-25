@@ -6,7 +6,7 @@ type Props = {
 	className?: string;
 } & PropsWithChildren;
 
-export const CenterPageContent = ({children, className}: Props) => {
+export const LayoutCenterPageContent = ({children, className}: Props) => {
 	return (
 		<div className={cn(style["center-page-content"], className)}>
 			{children}

@@ -6,7 +6,6 @@ type TextProps = {
 	size?: "small" | "default" | "big" | "very-big";
 	weight?: "regular" | "semiBold";
 	inline?: boolean;
-	color?: "black" | "dark" | "white" | "gray";
 } & PropsWithChildren &
 	HTMLAttributes<HTMLDivElement>;
 

@@ -1,11 +1,12 @@
-import {CenterPageContent, LayoutEmptyPage, Text} from "@main-webapp/shared";
+import {Text} from "@main-webapp/shared";
+import {LayoutCenterPageContent, LayoutEmptyPage} from "@main-webapp/shared";
 
 export const LoadPage = () => {
 	return (
 		<LayoutEmptyPage>
-			<CenterPageContent>
+			<LayoutCenterPageContent>
 				<Text size="big">Загрузка страницы...</Text>
-			</CenterPageContent>
+			</LayoutCenterPageContent>
 		</LayoutEmptyPage>
 	);
 };
