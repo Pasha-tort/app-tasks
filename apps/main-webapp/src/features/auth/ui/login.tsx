@@ -11,14 +11,14 @@ export const LoginFeature = () => {
 			name="login"
 			style={{maxWidth: 400, width: "90vw"}}
 			layout="vertical">
-			<Form.Item<ApiUserContracts.Auth.login.RequestDto["email"]>
+			<Form.Item<ApiUserContracts.Auth.login.RequestDto>
 				label="Укажите вашу почту"
 				name="email"
 				rules={[{required: true, message: "Укажите вашу почту"}]}>
 				<Input autoComplete="username" />
 			</Form.Item>
 
-			<Form.Item<ApiUserContracts.Auth.login.RequestDto["password"]>
+			<Form.Item<ApiUserContracts.Auth.login.RequestDto>
 				label="Укажите ваш пароль"
 				name="password"
 				rules={[{required: true, message: "Укажите ваш пароль"}]}>

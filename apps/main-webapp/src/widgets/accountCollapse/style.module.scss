@@ -1,0 +1,15 @@
+@import "@main-webapp/shared/scss/variable.scss";
+
+.collapse-block {
+  max-width: 800px;
+  background-color: transparent;
+  border: none;
+}
+.collapse-item {
+  background-color: $white-color;
+  border-radius: none;
+  margin-bottom: 24px;
+  &:last-child {
+    border-radius: 0 !important;
+  }
+}

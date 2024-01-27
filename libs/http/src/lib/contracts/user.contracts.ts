@@ -53,6 +53,29 @@ export namespace ApiUserContracts {
 		}
 		export namespace checkToken {
 			export const path = "/check-token";
+
+			export class ResponseDto implements IUserBaseData {
+				name: string;
+				email: string;
+				id: string;
+			}
+		}
+
+		export namespace editName {
+			export const path = "/edit-name";
+
+			@Exclude()
+			export class RequestDto
+				implements Pick<AccountContracts.Auth.editName.RequestDto, "newName">
+			{
+				@Expose()
+				@IsString()
+				newName: string;
+			}
+
+			@Exclude()
+			export class ResponseDto extends AccountContracts.Auth.editName
+				.ResponseDto {}
 		}
 	}
 }

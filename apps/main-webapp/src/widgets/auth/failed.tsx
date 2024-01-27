@@ -2,6 +2,7 @@ import {
 	LayoutCenterPageContent,
 	LayoutEmptyPage,
 	Text,
+	routesConfig,
 } from "@main-webapp/shared";
 import {useEffect, useState, startTransition} from "react";
 import {Link, useNavigate} from "react-router-dom";
@@ -10,12 +11,13 @@ import {Button, Space} from "antd";
 
 const COUNT_DOWN = 8;
 
-const AuthFailedWidget = () => {
+export const AuthFailedWidget = () => {
 	const navigate = useNavigate();
 	const [time, setTime] = useState(COUNT_DOWN);
 
 	useEffect(() => {
-		if (time <= 0) startTransition(() => navigate("/"));
+		if (time <= 0)
+			startTransition(() => navigate(routesConfig.root.child.auth.path));
 
 		const timeout = setTimeout(() => {
 			setTime(time - 1);
@@ -49,5 +51,3 @@ const AuthFailedWidget = () => {
 		</LayoutEmptyPage>
 	);
 };
-
-export default AuthFailedWidget;

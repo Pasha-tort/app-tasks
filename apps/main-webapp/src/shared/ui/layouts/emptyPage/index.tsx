@@ -7,13 +7,6 @@ type Props = {
 	bgLightGreen?: boolean;
 } & PropsWithChildren;
 
-export const LayoutEmptyPage = ({children, className, bgLightGreen}: Props) => (
-	<div
-		className={cn(
-			style["empty-page"],
-			// bgLightGreen && style["empty-page_bg-light-green"],
-			className,
-		)}>
-		{children}
-	</div>
+export const LayoutEmptyPage = ({children, className}: Props) => (
+	<div className={cn(style["empty-page"], className)}>{children}</div>
 );

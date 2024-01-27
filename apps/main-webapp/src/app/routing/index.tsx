@@ -1,6 +1,6 @@
 import {lazy} from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {Root} from "@main-webapp/pages";
+import {AuthPage, Root} from "@main-webapp/pages";
 import {HomePage} from "@main-webapp/pages";
 import {routesConfig} from "@main-webapp/shared";
 
@@ -11,11 +11,12 @@ const PublicPage = lazy(() => import("@main-webapp/pages/public"));
 const Error404 = lazy(() => import("@main-webapp/pages/404"));
 
 /**
- * !! Хочешь добавить страницу, то сначала идем в routesConfig, и редачим его, добавляем страницу туда, и потом на основе этого конфига создаем страницу тут
+ * !! Хочешь добавить страницу, то сначала идем в routesConfig, и редачим его, добавляем страницу туда,
+ * !! и потом на основе этого конфига создаем страницу тут
  */
 export const router = createBrowserRouter([
 	{
-		path: Object(routesConfig.root.path),
+		path: routesConfig.root.path,
 		element: (
 			<Root>
 				<HomePage />
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
 			},
 		],
 	},
+	// {
+	// 	path: routesConfig.root.child.auth.path,
+	// 	element: <AuthPage />,
+	// },
 	{
 		path: routesConfig.root.child.public.path,
 		element: <PublicPage />,

@@ -1,13 +1,13 @@
 import {useAppDispatch} from "@main-webapp/common";
 import {useCallback} from "react";
-import {loginAction} from "@main-webapp/entities";
+import {editNameAction} from "@main-webapp/entities";
 import {ApiUserContracts} from "@app-tasks/http/src/lib/contracts";
 
-export const useGetSubmitFnToLogin = () => {
+export const useGetSubmitEditName = () => {
 	const dispatch = useAppDispatch();
 	return useCallback(
-		(data: ApiUserContracts.Auth.login.RequestDto) => {
-			dispatch(loginAction(data));
+		(data: ApiUserContracts.Auth.editName.RequestDto) => {
+			dispatch(editNameAction(data));
 		},
 		[dispatch],
 	);

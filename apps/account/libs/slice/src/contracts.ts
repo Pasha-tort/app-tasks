@@ -95,5 +95,26 @@ export namespace AccountContracts {
 				id: string;
 			}
 		}
+
+		export namespace editName {
+			export const topic = "account.editName.command";
+
+			@Exclude()
+			export class RequestDto {
+				@Expose()
+				@IsMongoId()
+				userId: string;
+
+				@Expose()
+				@IsString()
+				newName: string;
+			}
+
+			@Exclude()
+			export class ResponseDto {
+				@Expose()
+				name: string;
+			}
+		}
 	}
 }

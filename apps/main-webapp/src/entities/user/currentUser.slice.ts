@@ -6,6 +6,7 @@ import {
 	logoutReducer,
 	registerReducer,
 	tokenRefreshReducer,
+	editNameReducer,
 } from "./reducers";
 
 const currentUserSlice = createSlice({
@@ -18,13 +19,24 @@ const currentUserSlice = createSlice({
 		logoutReducer(builder);
 		tokenRefreshReducer(builder);
 		checkTokenReducer(builder);
+		editNameReducer(builder);
 	},
 	selectors: {
-		selectCurrentUser(state) {
-			return state;
+		selectCurrentUserStatus(state) {
+			return state.status;
+		},
+		selectCurrentUserEdited(state) {
+			return state.edited;
+		},
+		selectCurrentUserName(state) {
+			return state.name;
 		},
 	},
 });
 
-export const {selectCurrentUser} = currentUserSlice.selectors;
+export const {
+	selectCurrentUserStatus,
+	selectCurrentUserEdited,
+	selectCurrentUserName,
+} = currentUserSlice.selectors;
 export default currentUserSlice.reducer;

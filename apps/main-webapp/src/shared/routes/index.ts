@@ -19,6 +19,9 @@ export const routesConfig = {
 			chat: {
 				path: "/chat",
 			},
+			auth: {
+				path: "/auth",
+			},
 			public: {
 				path: "/public",
 			},

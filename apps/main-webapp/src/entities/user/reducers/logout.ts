@@ -15,9 +15,10 @@ export const logoutReducer = (
 		state.status = "loading";
 		state.error = null;
 	});
-	builder.addCase(logoutAction.fulfilled, state => {
-		state = initialState;
-	});
+	builder.addCase(logoutAction.fulfilled, state => ({
+		...initialState,
+		status: "exited",
+	}));
 	builder.addCase(logoutAction.rejected, (state, {payload}) => ({
 		...initialState,
 		status: "failed",

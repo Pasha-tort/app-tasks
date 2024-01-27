@@ -24,9 +24,11 @@ export const checkTokenReducer = (
 		state.status = "loading";
 		state.error = null;
 	});
-	builder.addCase(checkTokenAction.fulfilled, state => {
-		state.status = "succeeded";
-	});
+	builder.addCase(checkTokenAction.fulfilled, (state, {payload}) => ({
+		...state,
+		status: "succeeded",
+		...payload,
+	}));
 	builder.addCase(checkTokenAction.rejected, (state, {payload}) => ({
 		...initialState,
 		status: "failed",

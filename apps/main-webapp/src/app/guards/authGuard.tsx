@@ -1,24 +1,30 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-import {PropsWithChildren, useLayoutEffect} from "react";
-import {checkTokenAction, selectCurrentUser} from "@main-webapp/entities";
+import {PropsWithChildren, useEffect, useLayoutEffect} from "react";
+import {checkTokenAction, selectCurrentUserStatus} from "@main-webapp/entities";
 import {useAppSelector, useAppDispatch} from "@main-webapp/common";
-import {AuthLoadingWidget} from "../../widgets/auth/loading";
 import {useNavigate} from "react-router-dom";
+import {routesConfig} from "@main-webapp/shared";
+import {AuthLoadingWidget, AuthWidget} from "@main-webapp/widgets";
+import {AuthPage} from "@main-webapp/pages";
 
 export const AuthGuard = ({children}: PropsWithChildren) => {
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const user = useAppSelector(selectCurrentUser);
+	const status = useAppSelector(selectCurrentUserStatus);
+	// const navigate = useNavigate();
 
 	useLayoutEffect(() => {
 		dispatch(checkTokenAction());
 	}, [dispatch]);
 
-	useLayoutEffect(() => {
-		if (user.status === "failed") navigate("/");
-	}, [user.status, navigate]);
+	// useEffect(() => {
+	// if (status === "failed" || status === "exited")
+	// navigate(routesConfig.root.path);
+	// 	// if (status === "succeeded") {
+	// 	// 	navigate(routesConfig.root.path, {replace: true});
+	// 	// }
+	// });
 
-	if (user.status === "loading") return <AuthLoadingWidget />;
-	if (user.status === "idle") return null;
+	if (status === "loading") return <AuthLoadingWidget />;
+	if (status === "idle") return null;
+	if (status === "failed" || status === "exited") return <AuthWidget />;
 	return children;
 };

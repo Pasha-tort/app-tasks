@@ -9,6 +9,7 @@ import {MongooseModule} from "@nestjs/mongoose";
 import path from "path";
 import {RMQModule} from "nestjs-rmq";
 import {AuthModule} from "./auth/auth.module";
+import {UserModule} from "./user/user.module";
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import {AuthModule} from "./auth/auth.module";
 		MongooseModule.forRootAsync(getMongoConfig()),
 		RMQModule.forRootAsync(getRmqConfig()),
 		AuthModule,
+		UserModule,
 	],
 })
 export class AppModule {}

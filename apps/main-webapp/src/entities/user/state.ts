@@ -1,6 +1,7 @@
 import {IUserBaseData} from "@app-tasks/account.slice/src/user.interface";
 export type StateCurrentUser = IUserBaseData & {
-	status: "idle" | "loading" | "succeeded" | "failed";
+	status: "idle" | "loading" | "succeeded" | "failed" | "exited";
+	edited: boolean;
 	error: string | null;
 };
 export const initialState: StateCurrentUser = {
@@ -8,5 +9,6 @@ export const initialState: StateCurrentUser = {
 	name: "",
 	email: "",
 	status: "idle",
+	edited: false,
 	error: null,
 };

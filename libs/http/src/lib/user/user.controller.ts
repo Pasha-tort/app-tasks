@@ -69,7 +69,7 @@ export class UserController {
 				key:
 					this.configService.get("KEY_COOKIE_TOKEN_REFRESH") || "tokenRefresh",
 				hash: "",
-				path: "/api/user/refresh-token",
+				path: "/api/user/token-refresh",
 			},
 			{
 				key: this.configService.get("KEY_COOKIE_TOKEN_ACCESS") || "tokenAccess",
@@ -101,8 +101,18 @@ export class UserController {
 	 * Если jwt guard пропустит запрос, то accessToken можно считать валидным и запрос успешно завершить,
 	 * если с accessToken'ом что то не так, то guard завалаит запрос сама
 	 */
-	async checkToken(@Res() res: Response) {
-		return res.status(HttpStatus.OK).json({});
+	async checkToken(
+		@UserExtractor() user: IUserBaseData,
+	): Promise<ApiUserContracts.Auth.checkToken.ResponseDto> {
+		return user;
+	}
+
+	@Post(ApiUserContracts.Auth.editName.path)
+	async editName(
+		@Body() {newName}: ApiUserContracts.Auth.editName.RequestDto,
+		@UserExtractor() {id}: IUserBaseData,
+	) {
+		return this.userService.editName({userId: id, newName});
 	}
 
 	private genCookiesForTokens(

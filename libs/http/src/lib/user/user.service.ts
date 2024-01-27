@@ -21,4 +21,8 @@ export class UserService {
 	async refreshToken(payload: AccountContracts.Auth.refreshToken.RequestDto) {
 		return this.accountRmqService.refreshToken(payload);
 	}
+
+	async editName(payload: AccountContracts.Auth.editName.RequestDto) {
+		return this.accountRmqService.editName(payload);
+	}
 }

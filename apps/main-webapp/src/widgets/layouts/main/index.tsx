@@ -23,7 +23,7 @@ export const MainLayout = ({children}: PropsWithChildren) => {
 
 	const currentPath = useGetCurrentItem();
 	return (
-		<Layout className={style["layout"]}>
+		<Layout className={style["layout-main"]}>
 			<Sider
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => {
@@ -81,13 +81,14 @@ export const MainLayout = ({children}: PropsWithChildren) => {
 					]}
 				/>
 			</Sider>
-			<Layout className={style["content"]}>
+			<Layout className={style["layout-content"]}>
 				<Content
 					style={{
 						margin: "24px 16px",
 						padding: 24,
 						minHeight: 280,
-					}}>
+					}}
+					className={style["content"]}>
 					{children}
 				</Content>
 			</Layout>

@@ -36,9 +36,17 @@ export class AuthHttpService extends BaseHttpService {
 	}
 
 	checkToken() {
-		return this.sendRequest({
+		return this.sendRequest<ApiUserContracts.Auth.checkToken.ResponseDto>({
 			path: ApiUserContracts.Auth.checkToken.path,
 			method: METHODS.GET,
+		});
+	}
+
+	editName(body: ApiUserContracts.Auth.editName.RequestDto) {
+		return this.sendRequest<ApiUserContracts.Auth.editName.ResponseDto>({
+			body,
+			path: ApiUserContracts.Auth.editName.path,
+			method: METHODS.POST,
 		});
 	}
 }

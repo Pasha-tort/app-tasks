@@ -6,7 +6,7 @@
     outline-style: solid;
   }
 }
-.layout {
+.layout-main {
   height: 100dvh;
 }
 .sidebar {
@@ -75,8 +75,21 @@
     background-color: $green-main !important;
   }
 }
-.content {
+.layout-content {
   background-color: $background-main;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $background-main;
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color:  $orange-main;    /* цвет плашки */
+    border-radius: 4px;       /* закругления плашки */
+    cursor: pointer;
+
+  }
 }

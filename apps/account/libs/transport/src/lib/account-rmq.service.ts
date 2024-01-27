@@ -35,4 +35,12 @@ export class AccountRmqService {
 	}
 	static refreshTokenRpc = () =>
 		RMQRoute(AccountContracts.Auth.refreshToken.topic);
+
+	async editName(payload: AccountContracts.Auth.editName.RequestDto) {
+		return this.rmqService.send<
+			AccountContracts.Auth.editName.RequestDto,
+			AccountContracts.Auth.editName.ResponseDto
+		>(AccountContracts.Auth.editName.topic, payload);
+	}
+	static editNameRpc = () => RMQRoute(AccountContracts.Auth.editName.topic);
 }

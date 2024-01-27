@@ -20,8 +20,11 @@ export class UserRepository {
 		return newUser.save();
 	}
 
+	/**
+	 * !! Аккуратно с этим методом, он используется и для изменения системных данных о пользователе, так и клиентских данных
+	 */
 	async updateUserById(id: string, user: Partial<IUser>) {
-		return this.userModel.findByIdAndUpdate(id, {$set: user});
+		return this.userModel.findByIdAndUpdate(id, {$set: user}, {new: true});
 	}
 
 	async findUserByEmail(email: string, throwError: boolean = false) {
