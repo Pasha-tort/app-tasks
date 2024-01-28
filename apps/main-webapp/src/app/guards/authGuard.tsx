@@ -24,7 +24,8 @@ export const AuthGuard = ({children}: PropsWithChildren) => {
 	// });
 
 	if (status === "loading") return <AuthLoadingWidget />;
-	if (status === "idle") return null;
-	if (status === "failed" || status === "exited") return <AuthWidget />;
+	// if (status === "idle") return null;
+	if (status === "failed" || status === "exited" || status === "idle")
+		return <AuthWidget />;
 	return children;
 };

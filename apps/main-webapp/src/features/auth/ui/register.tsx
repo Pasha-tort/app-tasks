@@ -5,6 +5,7 @@ import {useGetSubmitFnToRegister} from "../model";
 
 export const RegisterFeature = () => {
 	const submit = useGetSubmitFnToRegister();
+
 	return (
 		<FormWrapper<ApiUserContracts.Auth.register.RequestDto>
 			submit={submit}
@@ -14,6 +15,7 @@ export const RegisterFeature = () => {
 			<Form.Item<ApiUserContracts.Auth.register.RequestDto["email"]>
 				label="Укажите вашу почту"
 				name="email"
+				hasFeedback
 				rules={[{required: true, message: "Укажите вашу почту"}]}>
 				<Input autoComplete="username" />
 			</Form.Item>
@@ -21,6 +23,7 @@ export const RegisterFeature = () => {
 			<Form.Item<ApiUserContracts.Auth.register.RequestDto["password"]>
 				label="Укажите ваш пароль"
 				name="password"
+				hasFeedback
 				rules={[{required: true, message: "Укажите ваш пароль"}]}>
 				<Input.Password autoComplete="new-password" />
 			</Form.Item>

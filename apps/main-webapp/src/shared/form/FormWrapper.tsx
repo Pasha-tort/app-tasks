@@ -12,11 +12,15 @@ export const FormWrapper = <FieldsValue extends object>({
 	...options
 }: FormWrapperProps<FieldsValue>) => {
 	const [form] = Form.useForm<FieldsValue>();
-	form.submit = () => {
-		submit(form.getFieldsValue());
-	};
 	return (
-		<Form form={form} autoComplete="off" preserve={false} {...options}>
+		<Form
+			onFinish={() => {
+				submit(form.getFieldsValue());
+			}}
+			form={form}
+			autoComplete="off"
+			preserve={false}
+			{...options}>
 			{children}
 		</Form>
 	);

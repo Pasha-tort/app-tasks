@@ -4,10 +4,8 @@ import style from "./style.module.scss";
 
 export const AuthPage = () => {
 	return (
-		<>
-			<LayoutEmptyPage className={style["auth-page"]}>
-				<AuthWidget />
-			</LayoutEmptyPage>
-		</>
+		<LayoutEmptyPage className={style["auth-page"]}>
+			<AuthWidget />
+		</LayoutEmptyPage>
 	);
 };

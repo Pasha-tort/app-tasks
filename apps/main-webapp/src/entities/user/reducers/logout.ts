@@ -12,7 +12,6 @@ export const logoutReducer = (
 	builder: ActionReducerMapBuilder<StateCurrentUser>,
 ) => {
 	builder.addCase(logoutAction.pending, state => {
-		state.status = "loading";
 		state.error = null;
 	});
 	builder.addCase(logoutAction.fulfilled, state => ({

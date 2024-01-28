@@ -5,6 +5,7 @@ import {useGetSubmitFnToLogin} from "../model/login";
 
 export const LoginFeature = () => {
 	const submit = useGetSubmitFnToLogin();
+
 	return (
 		<FormWrapper<ApiUserContracts.Auth.login.RequestDto>
 			submit={submit}
@@ -14,13 +15,18 @@ export const LoginFeature = () => {
 			<Form.Item<ApiUserContracts.Auth.login.RequestDto>
 				label="Укажите вашу почту"
 				name="email"
-				rules={[{required: true, message: "Укажите вашу почту"}]}>
+				hasFeedback
+				rules={[
+					{required: true, message: "Укажите вашу почту"},
+					{type: "email", message: "Введеное значение не является почтой"},
+				]}>
 				<Input autoComplete="username" />
 			</Form.Item>
 
 			<Form.Item<ApiUserContracts.Auth.login.RequestDto>
 				label="Укажите ваш пароль"
 				name="password"
+				hasFeedback
 				rules={[{required: true, message: "Укажите ваш пароль"}]}>
 				<Input.Password autoComplete="current-password" />
 			</Form.Item>
